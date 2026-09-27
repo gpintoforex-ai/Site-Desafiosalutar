@@ -1,0 +1,135 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Paleta: #2D5016 verde escuro, #4A7C23 verde médio, #8FB339 verde claro, #F5F0E8 creme, #1A1A1A texto */
+    --background: 40 40% 98%;
+    --foreground: 0 0% 10%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 10%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 10%;
+
+    --primary: 96 57% 20%;
+    --primary-foreground: 37 39% 94%;
+
+    --secondary: 37 39% 94%;
+    --secondary-foreground: 96 57% 20%;
+
+    --muted: 37 30% 90%;
+    --muted-foreground: 0 0% 32%;
+
+    --accent: 78 52% 46%;
+    --accent-foreground: 0 0% 10%;
+
+    --leaf: 94 56% 31%;
+    --leaf-foreground: 0 0% 100%;
+
+    --cream: 37 39% 94%;
+
+    --destructive: 0 72% 42%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 37 25% 84%;
+    --input: 37 20% 78%;
+    --ring: 94 56% 31%;
+
+    --radius: 0.5rem;
+    --radius-sm: calc(0.5rem - 4px);
+    --radius-lg: calc(0.5rem + 4px);
+    --radius-full: 9999px;
+
+    --shadow-sm: 0 1px 2px 0 rgb(45 80 22 / 0.05), 0 1px 3px 0 rgb(45 80 22 / 0.08);
+    --shadow-md: 0 6px 16px -4px rgb(45 80 22 / 0.12);
+    --shadow-lg: 0 18px 40px -12px rgb(45 80 22 / 0.25);
+
+    --duration-fast: 150ms;
+    --duration-normal: 250ms;
+    --duration-slow: 350ms;
+
+    --chart-1: 96 57% 20%;
+    --chart-2: 94 56% 31%;
+    --chart-3: 78 52% 46%;
+    --chart-4: 37 39% 70%;
+    --chart-5: 30 50% 45%;
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  * {
+    border-color: hsl(var(--border));
+  }
+
+  body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display), Georgia, serif;
+  }
+
+  ::selection {
+    background-color: hsl(var(--accent) / 0.35);
+    color: hsl(var(--primary));
+  }
+
+  :focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+  }
+
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-track { background-color: hsl(var(--cream)); }
+  ::-webkit-scrollbar-thumb { background-color: hsl(var(--leaf) / 0.5); border-radius: 9999px; }
+}
+
+@layer utilities {
+  .scrollbar-none::-webkit-scrollbar { display: none; }
+  .scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
+
+  .leaf-pattern {
+    background-image: radial-gradient(hsl(var(--accent) / 0.18) 1px, transparent 1px);
+    background-size: 22px 22px;
+  }
+
+  .legal-prose h2 {
+    @apply mt-10 mb-3 text-2xl font-semibold tracking-tight text-primary;
+  }
+  .legal-prose h3 {
+    @apply mt-6 mb-2 text-lg font-semibold text-primary;
+  }
+  .legal-prose p {
+    @apply mb-4 leading-relaxed text-foreground/85;
+  }
+  .legal-prose ul {
+    @apply mb-4 list-disc space-y-1.5 pl-6 text-foreground/85;
+  }
+  .legal-prose a {
+    @apply font-medium text-leaf underline underline-offset-2 hover:text-primary;
+  }
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  .animate-marquee {
+    animation: marquee 40s linear infinite;
+  }
+  .pause-on-hover:hover .animate-marquee { animation-play-state: paused; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-marquee { animation: none; }
+  }
+}
