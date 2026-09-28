@@ -10,8 +10,6 @@ import { CookieBanner } from '@/components/cookie-banner'
 import { ChatWidget } from '@/components/chat-widget'
 import { SITE } from '@/lib/site'
 
-export const dynamic = 'force-dynamic'
-
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans', display: 'swap' })
 const playfair = Playfair_Display({ subsets: ['latin'], variable: '--font-display', display: 'swap' })
 

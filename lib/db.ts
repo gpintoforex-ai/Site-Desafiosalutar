@@ -1,9 +1,25 @@
+import { PrismaPg } from '@prisma/adapter-pg'
 import { PrismaClient } from '@prisma/client'
+import { getCloudflareContext } from '@opennextjs/cloudflare'
 
-const globalForPrisma = globalThis as unknown as {
-  prisma: PrismaClient | undefined
+type CloudflareBindings = {
+  HYPERDRIVE?: { connectionString: string }
 }
 
-export const prisma = globalForPrisma.prisma ?? new PrismaClient()
+function getConnectionString() {
+  try {
+    const env = getCloudflareContext().env as CloudflareBindings
+    if (env.HYPERDRIVE?.connectionString) return env.HYPERDRIVE.connectionString
+  } catch {
+    // Local Next.js development uses the DATABASE_URL from .env.
+  }
 
-if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma
+  const connectionString = process.env.DATABASE_URL
+  if (!connectionString) throw new Error('Set DATABASE_URL or configure a Cloudflare Hyperdrive binding.')
+  return connectionString
+}
+
+export function createPrismaClient() {
+  const adapter = new PrismaPg({ connectionString: getConnectionString(), maxUses: 1 })
+  return new PrismaClient({ adapter })
+}

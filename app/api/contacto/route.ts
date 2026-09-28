@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import { z } from 'zod'
-import { prisma } from '@/lib/db'
+import { createPrismaClient } from '@/lib/db'
 
 export const dynamic = 'force-dynamic'
 
@@ -35,18 +35,23 @@ export async function POST(req: Request) {
     if (d.website && d.website.trim().length > 0) {
       return NextResponse.json({ ok: true })
     }
-    await prisma.contactSubmission.create({
-      data: {
-        name: d.name,
-        email: d.email,
-        phone: d.phone ?? null,
-        subject: d.subject,
-        message: d.message,
-        consent: true,
-        consentAt: new Date(),
-        formType: 'contacto',
-      },
-    })
+    const prisma = createPrismaClient()
+    try {
+      await prisma.contactSubmission.create({
+        data: {
+          name: d.name,
+          email: d.email,
+          phone: d.phone ?? null,
+          subject: d.subject,
+          message: d.message,
+          consent: true,
+          consentAt: new Date(),
+          formType: 'contacto',
+        },
+      })
+    } finally {
+      await prisma.$disconnect()
+    }
 
     // Enviar email de notificação para a loja (não bloqueia a resposta em caso de falha)
     try {
@@ -85,7 +90,11 @@ export async function POST(req: Request) {
           sender_alias: 'Ervanária Desafio Salutar',
         }),
       })
-      const result = await res.json().catch(() => null)
+      const result = (await res.json().catch(() => null)) as {
+        result?: { success?: boolean; notification_disabled?: boolean }
+        success?: boolean
+        notification_disabled?: boolean
+      } | null
       const innerOk = result?.result?.success ?? result?.success
       if (!innerOk && !result?.notification_disabled && !result?.result?.notification_disabled) {
         console.error('Falha ao enviar email de notificação', result)

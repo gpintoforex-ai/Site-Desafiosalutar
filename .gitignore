@@ -1,8 +1,13 @@
 node_modules/
 .next/
+.open-next/
+.wrangler/
 out/
 build/
 coverage/
+cloudflare-env.d.ts
+.dev.vars
+wrangler.local.jsonc
 
 .env
 .env.*
