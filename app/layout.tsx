@@ -29,7 +29,10 @@ export async function generateMetadata(): Promise<Metadata> {
     description:
       'Ervanária com chás e infusões, suplementos naturais, fitoterapia, óleos essenciais, cosméticos naturais e mel. Visite a nossa loja e receba aconselhamento personalizado.',
     keywords: ['ervanária', 'produtos naturais', 'fitoterapia', 'chás', 'suplementos', 'óleos essenciais', 'cosmética natural'],
-    icons: { icon: '/favicon.svg', shortcut: '/favicon.svg' },
+    icons: {
+      icon: { url: '/favicon.svg?v=2', type: 'image/svg+xml', sizes: 'any' },
+      shortcut: '/favicon.svg?v=2',
+    },
     openGraph: {
       type: 'website',
       locale: 'pt_PT',
