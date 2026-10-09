@@ -14,6 +14,10 @@ const nextConfig = {
   productionBrowserSourceMaps: false,
   outputFileTracingRoot: process.env.NEXT_OUTPUT_MODE ? path.join(__dirname, '../') : __dirname,
   serverExternalPackages: ['@prisma/client', '.prisma/client'],
+  // Next.js traces the default export; Workers need the additional socket files.
+  outputFileTracingIncludes: {
+    '/*': ['./node_modules/pg-cloudflare/dist/**/*', './node_modules/pg-cloudflare/esm/**/*'],
+  },
   typescript: {
     ignoreBuildErrors: true,
   },
