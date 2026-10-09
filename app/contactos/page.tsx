@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Clock, Mail, MapPin, Phone, ShieldCheck } from 'lucide-react'
+import { Clock, Mail, MapPin, MessageCircle, Phone, ShieldCheck } from 'lucide-react'
 import { PageHero } from '@/components/page-hero'
 import { Reveal } from '@/components/reveal'
 import { ContactForm } from '@/components/contact-form'
@@ -53,6 +53,15 @@ export default function ContactosPage() {
                   <span suppressHydrationWarning>{SITE.mobilePhone}</span>
                 </a>
                 <p className="mt-1 text-xs text-muted-foreground">{SITE.mobilePhoneCostNote} (DL n.º 59/2021).</p>
+                <a
+                  href={SITE.whatsappUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-5 inline-flex items-center gap-2 rounded-full bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground transition hover:bg-leaf"
+                >
+                  <MessageCircle className="h-4 w-4" aria-hidden="true" /> Falar pelo WhatsApp
+                  <span className="sr-only"> (abre numa nova janela)</span>
+                </a>
               </div>
             </Reveal>
             <Reveal delay={0.1}>

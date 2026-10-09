@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { BookOpen, Clock, ExternalLink, Facebook, Instagram, Mail, MapPin, Phone, Scale } from 'lucide-react'
+import { BookOpen, Clock, ExternalLink, Facebook, Instagram, Mail, MapPin, MessageCircle, Phone, Scale } from 'lucide-react'
 import { Logo } from '@/components/logo'
 import { ManageCookiesButton } from '@/components/manage-cookies-button'
 import { NAV_LEGAL, NAV_MAIN, SITE } from '@/lib/site'
@@ -44,6 +44,12 @@ export function SiteFooter() {
         <div>
           <h3 className="mb-4 font-display text-lg text-primary-foreground">Contactos</h3>
           <ul className="space-y-3 text-sm text-primary-foreground/85">
+            <li className="flex gap-2.5">
+              <MessageCircle className="mt-0.5 h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
+              <a href={SITE.whatsappUrl} target="_blank" rel="noopener noreferrer" className="hover:text-accent">
+                Falar pelo WhatsApp<span className="sr-only"> (abre numa nova janela)</span>
+              </a>
+            </li>
             <li className="flex gap-2.5">
               <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
               <address className="not-italic">{SITE.fullAddress}</address>

@@ -2,7 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { MapPin, MessageCircle } from 'lucide-react'
 import { Reveal } from '@/components/reveal'
-import { IMAGES } from '@/lib/site'
+import { IMAGES, SITE } from '@/lib/site'
 
 export function CtaBand() {
   return (
@@ -20,12 +20,15 @@ export function CtaBand() {
             </p>
           </div>
           <div className="flex flex-wrap gap-3">
-            <Link
-              href="/contactos"
+            <a
+              href={SITE.whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center gap-2 rounded-full bg-accent px-6 py-3 font-semibold text-accent-foreground shadow-soft transition hover:-translate-y-0.5 hover:brightness-105"
             >
-              <MessageCircle className="h-4 w-4" aria-hidden="true" /> Fale Connosco
-            </Link>
+              <MessageCircle className="h-4 w-4" aria-hidden="true" /> Falar pelo WhatsApp
+              <span className="sr-only"> (abre numa nova janela)</span>
+            </a>
             <Link
               href="/contactos#localizacao"
               className="inline-flex items-center gap-2 rounded-full bg-primary-foreground/15 px-6 py-3 font-semibold text-primary-foreground transition hover:bg-primary-foreground/25"

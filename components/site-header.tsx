@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { ChevronDown, Menu, MessageCircle, Scale, X } from 'lucide-react'
 import { Logo } from '@/components/logo'
-import { NAV_LEGAL, NAV_MAIN } from '@/lib/site'
+import { NAV_LEGAL, NAV_MAIN, SITE } from '@/lib/site'
 
 export function SiteHeader() {
   const pathname = usePathname() ?? '/'
@@ -111,13 +111,15 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <Link
-            href="/contactos"
+          <a
+            href={SITE.whatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
             className="hidden items-center gap-2 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-soft transition-all hover:-translate-y-0.5 hover:bg-leaf hover:shadow-lift sm:inline-flex"
           >
             <MessageCircle className="h-4 w-4" aria-hidden="true" />
-            Fale Connosco
-          </Link>
+            WhatsApp<span className="sr-only"> (abre numa nova janela)</span>
+          </a>
           <button
             type="button"
             className="inline-flex h-11 w-11 items-center justify-center rounded-md text-primary hover:bg-secondary lg:hidden"
@@ -157,12 +159,15 @@ export function SiteHeader() {
                 </li>
               ))}
               <li className="pt-2">
-                <Link
-                  href="/contactos"
+                <a
+                  href={SITE.whatsappUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="flex items-center justify-center gap-2 rounded-full bg-primary px-5 py-3 font-semibold text-primary-foreground"
                 >
-                  <MessageCircle className="h-4 w-4" aria-hidden="true" /> Fale Connosco
-                </Link>
+                  <MessageCircle className="h-4 w-4" aria-hidden="true" /> Falar pelo WhatsApp
+                  <span className="sr-only"> (abre numa nova janela)</span>
+                </a>
               </li>
             </ul>
           </motion.nav>

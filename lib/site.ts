@@ -14,6 +14,7 @@ export const SITE = {
   phoneCostNote: 'Chamada para a rede fixa nacional',
   mobilePhone: '+351 910 419 820',
   mobilePhoneHref: 'tel:+351910419820',
+  whatsappUrl: `https://wa.me/351910419820?text=${encodeURIComponent('Olá! Gostaria de obter mais informações sobre os produtos da Desafio Salutar.')}`,
   mobilePhoneCostNote: 'Chamada para a rede móvel nacional',
   email: 'desafiosalutar@hotmail.com',
   nif: '510774318',
