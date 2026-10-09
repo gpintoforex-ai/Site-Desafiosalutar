@@ -7,8 +7,9 @@ export async function GET(request: Request) {
   if (!validAdminSession((await cookies()).get(ADMIN_COOKIE)?.value)) return new Response('Não autorizado.', { status: 401, headers: { 'Cache-Control': 'no-store' } })
   const id = new URL(request.url).searchParams.get('id')
   if (!id || id.length > 100) return new Response('Pedido inválido.', { status: 400 })
-  const prisma = createPrismaClient()
+  let prisma: ReturnType<typeof createPrismaClient> | undefined
   try {
+    prisma = createPrismaClient()
     const rows = await prisma.$queryRaw<{ name: string; mime: string; data: Uint8Array }[]>`SELECT "name", "mime", "data" FROM "ContactAttachment" WHERE "id" = ${id}`
     const file = rows[0]
     if (!file) return new Response('Ficheiro não encontrado.', { status: 404 })
@@ -18,5 +19,5 @@ export async function GET(request: Request) {
       'Cache-Control': 'private, no-store', 'X-Content-Type-Options': 'nosniff', 'Content-Security-Policy': "default-src 'none'; sandbox",
     } })
   } catch { return new Response('Não foi possível obter o anexo.', { status: 503 }) }
-  finally { await prisma.$disconnect() }
+  finally { if (prisma) await prisma.$disconnect() }
 }

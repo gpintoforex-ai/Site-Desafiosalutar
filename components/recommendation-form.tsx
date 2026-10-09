@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useState, type FormEvent } from 'react'
 import { CheckCircle2, Leaf, Paperclip, Send } from 'lucide-react'
 import { recommendationFields, MAX_FILE_BYTES } from '@/lib/recommendation'
+import { readApiResponse } from '@/lib/api-response'
 
 const input = 'mt-2 w-full rounded-lg border border-border bg-background px-4 py-3 text-foreground focus:outline-none focus:ring-2 focus:ring-leaf'
 export function RecommendationForm() {
@@ -18,7 +19,7 @@ export function RecommendationForm() {
     setBusy(true)
     try {
       const response = await fetch('/api/recomendacao', { method: 'POST', body: data })
-      const result = await response.json() as { error?: string }
+      const result = await readApiResponse<{ error?: string }>(response)
       if (!response.ok) throw new Error(result.error || 'Não foi possível enviar o pedido.')
       setSent(true); setFiles([])
     } catch (err) { setError(err instanceof Error ? err.message : 'Não foi possível enviar o pedido.') }

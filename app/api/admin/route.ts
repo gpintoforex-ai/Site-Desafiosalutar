@@ -18,13 +18,14 @@ const respond = (body: unknown, status = 200) => NextResponse.json(body, { statu
 export async function GET() {
   const authenticated = validAdminSession((await cookies()).get(ADMIN_COOKIE)?.value)
   if (!authenticated) return respond({ authenticated: false, configured: adminConfigured() }, 401)
-  const prisma = createPrismaClient()
+  let prisma: ReturnType<typeof createPrismaClient> | undefined
   try {
+    prisma = createPrismaClient()
     const settings = await prisma.smtpSettings.findUnique({ where: { id: 'default' }, select: { username: true, recipient: true, enabled: true, updatedAt: true } })
     return respond({ authenticated: true, settings, hasPassword: Boolean(settings) })
   } catch {
     return respond({ authenticated: true, error: 'Não foi possível ler as configurações. Confirme a criação da tabela SmtpSettings.' }, 503)
-  } finally { await prisma.$disconnect() }
+  } finally { if (prisma) await prisma.$disconnect() }
 }
 
 export async function POST(request: Request) {
@@ -71,8 +72,9 @@ export async function POST(request: Request) {
   if (!parsed.success) return respond({ error: 'Indique uma conta @gmail.com e um destinatário válido.' }, 400)
   const password = parsed.data.password.replace(/\s/g, '')
   if (password && !/^[a-zA-Z0-9]{16}$/.test(password)) return respond({ error: 'A password de aplicação deve ter 16 caracteres, sem espaços.' }, 400)
-  const prisma = createPrismaClient()
+  let prisma: ReturnType<typeof createPrismaClient> | undefined
   try {
+    prisma = createPrismaClient()
     const existing = await prisma.smtpSettings.findUnique({ where: { id: 'default' } })
     if (!password && (!existing || existing.username !== parsed.data.username)) return respond({ error: 'Introduza a password de aplicação para esta conta Gmail.' }, 400)
     const passwordCiphertext = password ? encryptSmtpPassword(password) : existing!.passwordCiphertext
@@ -81,5 +83,5 @@ export async function POST(request: Request) {
     return respond({ ok: true, message: 'Configurações guardadas.' })
   } catch {
     return respond({ error: 'Não foi possível guardar. Confirme a tabela SmtpSettings e o segredo SMTP_ENCRYPTION_KEY.' }, 503)
-  } finally { await prisma.$disconnect() }
+  } finally { if (prisma) await prisma.$disconnect() }
 }

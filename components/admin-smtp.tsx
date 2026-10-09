@@ -3,6 +3,7 @@
 import { useEffect, useState, type FormEvent } from 'react'
 import { Input } from '@/components/ui/input'
 import { AdminInbox } from '@/components/admin-inbox'
+import { readApiResponse } from '@/lib/api-response'
 
 type Settings = { username: string; recipient: string; enabled: boolean }
 type ApiResponse = { authenticated?: boolean; configured?: boolean; settings?: Settings; error?: string; message?: string }
@@ -23,7 +24,7 @@ export function AdminSmtp() {
 
   async function load() {
     const response = await fetch('/api/admin', { cache: 'no-store' })
-    return await response.json() as ApiResponse
+    return await readApiResponse<ApiResponse>(response)
   }
   function applyData(data: ApiResponse) {
     if (data.authenticated) {
@@ -35,13 +36,13 @@ export function AdminSmtp() {
       if (data.configured === false) setError('O acesso admin ainda não foi configurado. Adicione os segredos de administração na Cloudflare.')
     }
   }
-  useEffect(() => { load().then(applyData).catch(() => setError('Não foi possível carregar a administração.')).finally(() => setLoading(false)) }, [])
+  useEffect(() => { load().then(applyData).catch(err => setError(err instanceof Error ? err.message : 'Não foi possível carregar a administração.')).finally(() => setLoading(false)) }, [])
 
   async function action(payload: Record<string, unknown>) {
     setBusy(true); setError(''); setMessage('')
     try {
       const response = await fetch('/api/admin', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
-      const data = await response.json() as ApiResponse
+      const data = await readApiResponse<ApiResponse>(response)
       if (!response.ok) {
         if (response.status === 401 && payload.action !== 'login') setAuthenticated(false)
         throw new Error(data.error || 'Não foi possível concluir o pedido.')

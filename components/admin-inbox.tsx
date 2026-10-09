@@ -1,6 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useState } from 'react'
+import { readApiResponse } from '@/lib/api-response'
 type Item = { id: string; name: string; email: string; subject: string; status: string; createdAt: string; phone?: string; message?: string }
 type Reply = { id: string; message: string; status: string; createdAt: string }
 type Attachment = { id: string; name: string; size: number }
@@ -37,7 +38,7 @@ export function AdminInbox() {
 
   async function api(url: string, payload?: object): Promise<Result> {
     const response = await fetch(url, payload ? { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) } : { cache: 'no-store' })
-    const data = await response.json() as Result
+    const data = await readApiResponse<Result>(response)
     if (!response.ok) throw new Error(data.error || 'Não foi possível concluir o pedido.')
     return data
   }

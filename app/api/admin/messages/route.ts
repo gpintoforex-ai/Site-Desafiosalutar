@@ -13,8 +13,9 @@ type Reply = { id: string; submissionId: string; message: string; status: string
 
 export async function GET(request: Request) {
   if (!await authenticated()) return respond({ error: 'Entre novamente na administração.' }, 401)
-  const prisma = createPrismaClient()
+  let prisma: ReturnType<typeof createPrismaClient> | undefined
   try {
+    prisma = createPrismaClient()
     const url = new URL(request.url)
     const id = url.searchParams.get('id')
     if (id) {
@@ -44,7 +45,7 @@ export async function GET(request: Request) {
     }
     return respond({ items, total, unread: counts.novo, counts })
   } catch { return respond({ error: 'Não foi possível carregar as mensagens. Confirme a ligação à base de dados e execute scripts/create-inbox.sql.' }, 503) }
-  finally { await prisma.$disconnect() }
+  finally { if (prisma) await prisma.$disconnect() }
 }
 
 export async function POST(request: Request) {
@@ -57,8 +58,9 @@ export async function POST(request: Request) {
   const parsed = z.object({ id: z.string().min(1).max(100), action: z.enum(['read', 'unread', 'delete', 'reply']), message: z.string().trim().min(1).max(10000).optional() }).safeParse(body)
   if (!parsed.success || (parsed.data.action === 'reply' && !parsed.data.message)) return respond({ error: 'Indique uma mensagem válida.' }, 400)
   const { id, action, message } = parsed.data
-  const prisma = createPrismaClient()
+  let prisma: ReturnType<typeof createPrismaClient> | undefined
   try {
+    prisma = createPrismaClient()
     const item = await prisma.contactSubmission.findUnique({ where: { id } })
     if (!item) return respond({ error: 'Mensagem não encontrada.' }, 404)
     if (action === 'delete') {
@@ -87,5 +89,5 @@ export async function POST(request: Request) {
     await prisma.contactSubmission.update({ where: { id }, data: { status: action === 'unread' ? 'novo' : item.status === 'novo' ? 'lido' : item.status } })
     return respond({ message: 'Estado atualizado.' })
   } catch { return respond({ error: 'Não foi possível concluir o pedido. Confirme a base de dados e a tabela ContactReply.' }, 503) }
-  finally { await prisma.$disconnect() }
+  finally { if (prisma) await prisma.$disconnect() }
 }
