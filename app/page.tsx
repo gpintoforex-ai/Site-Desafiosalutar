@@ -8,6 +8,7 @@ import { BrandsMarquee } from '@/components/brands-marquee'
 import { CtaBand } from '@/components/cta-band'
 import { Reveal } from '@/components/reveal'
 import { CountUp } from '@/components/count-up'
+import { GoogleReviews } from '@/components/google-reviews'
 import { BRANDS, CATEGORIES, IMAGES, SITE } from '@/lib/site'
 
 const VALUES = [
@@ -138,6 +139,8 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      <GoogleReviews />
 
       <CtaBand />
     </>

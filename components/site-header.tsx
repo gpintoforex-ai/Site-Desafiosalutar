@@ -51,11 +51,11 @@ export function SiteHeader() {
   return (
     <header
       className={`sticky top-0 z-50 w-full transition-all duration-300 ${
-        scrolled ? 'bg-background/90 shadow-soft backdrop-blur-md' : 'bg-background/70 backdrop-blur-sm'
+        scrolled ? 'bg-background/95 shadow-soft backdrop-blur-md' : 'bg-background shadow-soft'
       }`}
     >
-      <div className="mx-auto flex h-20 max-w-[1200px] items-center justify-between gap-4 px-4 sm:px-6">
-        <Logo />
+      <div className="mx-auto flex h-24 max-w-[1200px] items-center justify-between gap-4 px-4 sm:h-28 sm:px-6">
+        <Logo prominent />
 
         <nav aria-label="Navegação principal" className="hidden items-center gap-1 lg:flex">
           {NAV_MAIN.map((item) => (

@@ -1,19 +1,24 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useSyncExternalStore } from 'react'
 import { MapPin } from 'lucide-react'
 import { CONSENT_EVENT, readConsent, saveConsent } from '@/lib/consent'
 import { SITE } from '@/lib/site'
 
-export function MapEmbed() {
-  const [allowed, setAllowed] = useState(false)
+function subscribeToConsent(onUpdate: () => void) {
+  window.addEventListener(CONSENT_EVENT, onUpdate)
+  window.addEventListener('storage', onUpdate)
+  return () => {
+    window.removeEventListener(CONSENT_EVENT, onUpdate)
+    window.removeEventListener('storage', onUpdate)
+  }
+}
 
-  useEffect(() => {
-    setAllowed(Boolean(readConsent()?.functional))
-    const onUpdate = () => setAllowed(Boolean(readConsent()?.functional))
-    window.addEventListener(CONSENT_EVENT, onUpdate)
-    return () => window.removeEventListener(CONSENT_EVENT, onUpdate)
-  }, [])
+const readFunctionalConsent = () => Boolean(readConsent()?.functional)
+const serverConsent = () => false
+
+export function MapEmbed() {
+  const allowed = useSyncExternalStore(subscribeToConsent, readFunctionalConsent, serverConsent)
 
   const enable = () => {
     const c = readConsent()
@@ -38,8 +43,7 @@ export function MapEmbed() {
             <MapPin className="h-6 w-6" aria-hidden="true" />
           </span>
           <p className="max-w-sm text-sm text-foreground/80">
-            O mapa é fornecido pelo Google Maps e pode instalar cookies de terceiros. Para o visualizar, ative os cookies
-            funcionais.
+            O mapa é fornecido pelo Google Maps e pode instalar cookies de terceiros. Para o visualizar, ative os cookies funcionais.
           </p>
           <button
             type="button"

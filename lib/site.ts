@@ -23,6 +23,9 @@ export const SITE = {
   facebookUrl: '#',
   instagramUrl: '#',
   mapQuery: 'Rua Professor Ernesto Domingues Tavares 26, 3100-478 Pombal',
+  googleMapsUrl: 'https://maps.app.goo.gl/7BxpanTGB7oCTtEi8',
+  // Snapshot supplied by the owner; update these values when the Google rating changes.
+  googleRating: { score: 4.9, count: 33, checkedAt: '2026-10-09' },
   hours: [
     { days: 'Segunda a Sexta', time: '09h30 – 19h30' },
     { days: 'Sábado', time: '09h30 – 13h00' },
