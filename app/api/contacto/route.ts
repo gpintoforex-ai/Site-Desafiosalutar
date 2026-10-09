@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { z } from 'zod'
 import { createPrismaClient } from '@/lib/db'
+import { sendConfiguredEmail } from '@/lib/contact-email'
 
 export const dynamic = 'force-dynamic'
 
@@ -53,54 +54,23 @@ export async function POST(req: Request) {
       await prisma.$disconnect()
     }
 
-    // Enviar email de notificação para a loja (não bloqueia a resposta em caso de falha)
+    // Keep the saved message even when SMTP delivery fails.
     try {
-      const appUrl = process.env.NEXTAUTH_URL || ''
-      const hostname = appUrl ? new URL(appUrl).hostname : 'localhost'
-      const submittedAt = new Date().toLocaleString('pt-PT', { timeZone: 'Europe/Lisbon' })
-      const htmlBody = `
-        <div style="font-family: Arial, Helvetica, sans-serif; max-width: 600px; margin: 0 auto; color: #1A1A1A;">
-          <h2 style="color: #2D5016; border-bottom: 2px solid #8FB339; padding-bottom: 10px;">Nova mensagem de contacto</h2>
-          <div style="background: #F5F0E8; padding: 20px; border-radius: 8px; margin: 16px 0;">
-            <p style="margin: 8px 0;"><strong>Nome:</strong> ${d.name}</p>
-            <p style="margin: 8px 0;"><strong>Email:</strong> <a href="mailto:${d.email}">${d.email}</a></p>
-            <p style="margin: 8px 0;"><strong>Telefone:</strong> ${d.phone ?? 'Não indicado'}</p>
-            <p style="margin: 8px 0;"><strong>Assunto:</strong> ${d.subject}</p>
-            <p style="margin: 8px 0;"><strong>Mensagem:</strong></p>
-            <div style="background: #ffffff; padding: 15px; border-radius: 4px; border-left: 4px solid #4A7C23; white-space: pre-wrap;">${d.message}</div>
-          </div>
-          <p style="color: #666; font-size: 12px;">Submetido em ${submittedAt} através do site da Ervanária Desafio Salutar.</p>
-        </div>`
-
-      const res = await fetch('https://apps.abacus.ai/api/sendNotificationEmail', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${process.env.ABACUSAI_API_KEY}`,
-        },
-        body: JSON.stringify({
-          app_id: process.env.WEB_APP_ID,
-          notification_id: process.env.NOTIF_ID_MENSAGEM_DE_CONTACTO,
-          subject: `Nova mensagem de contacto — ${d.subject}`,
-          body: htmlBody,
-          is_html: true,
-          recipient_email: 'desafiosalutar@hotmail.com',
-          reply_to: d.email,
-          sender_email: `noreply@${hostname}`,
-          sender_alias: 'Ervanária Desafio Salutar',
-        }),
-      })
-      const result = (await res.json().catch(() => null)) as {
-        result?: { success?: boolean; notification_disabled?: boolean }
-        success?: boolean
-        notification_disabled?: boolean
-      } | null
-      const innerOk = result?.result?.success ?? result?.success
-      if (!innerOk && !result?.notification_disabled && !result?.result?.notification_disabled) {
-        console.error('Falha ao enviar email de notificação', result)
-      }
+      await sendConfiguredEmail(
+        `Nova mensagem de contacto - ${d.subject}`,
+        [
+          'Nova mensagem recebida no site da Desafio Salutar',
+          `Nome: ${d.name}`,
+          `Email: ${d.email}`,
+          `Telefone: ${d.phone ?? 'Nao indicado'}`,
+          `Assunto: ${d.subject}`,
+          '', d.message, '',
+          `Recebida em ${new Date().toLocaleString('pt-PT', { timeZone: 'Europe/Lisbon' })}`,
+        ].join('\n'),
+        d.email,
+      )
     } catch (mailErr) {
-      console.error('Erro ao enviar email de notificação', mailErr)
+      console.error('Falha ao enviar email de notificacao', mailErr instanceof Error ? mailErr.message : 'Erro SMTP')
     }
 
     return NextResponse.json({ ok: true })

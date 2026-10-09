@@ -13,7 +13,7 @@ import { BRANDS, CATEGORIES, IMAGES, SITE } from '@/lib/site'
 
 const VALUES = [
   { icon: Leaf, title: 'Seleção rigorosa', text: 'Escolhemos cada produto pela qualidade, origem e composição.' },
-  { icon: HeartHandshake, title: 'Aconselhamento próximo', text: 'Ouvimos com atenção e orientamos com responsabilidade.' },
+  { icon: HeartHandshake, title: 'Medicina integrativa', text: 'Aconselhamento próximo sobre produtos naturais e suplementação, com atenção às suas necessidades.' },
   { icon: ShieldCheck, title: 'Marcas de confiança', text: 'Trabalhamos com marcas reconhecidas no setor natural.' },
 ]
 
@@ -85,7 +85,7 @@ export default function HomePage() {
             <SectionHeading
               eyebrow="Quem Somos"
               title="Um espaço dedicado ao bem-estar natural"
-              text={`Desde ${SITE.foundingYear}, a Ervanária Desafio Salutar, em Pombal, une o saber tradicional das plantas a um aconselhamento próximo. Selecionamos cada produto com rigor e recebemos cada pessoa com tempo e atenção.`}
+              text={`Desde ${SITE.foundingYear}, a Ervanária Desafio Salutar, em Pombal, combina produtos naturais e suplementação com aconselhamento em medicina integrativa. Selecionamos cada produto com rigor e recebemos cada pessoa com tempo e atenção.`}
             />
             <Reveal delay={0.1}>
               <dl className="mt-8 grid grid-cols-3 gap-4">

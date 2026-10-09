@@ -3,7 +3,7 @@ export const SITE = {
   name: 'Ervanária Desafio Salutar',
   shortName: 'Desafio Salutar',
   foundingYear: 2013,
-  tagline: 'Espaço dedicado à sua saúde e bem-estar em Pombal. 100% de origem natural, com aconselhamento personalizado.',
+  tagline: 'Espaço dedicado à sua saúde e bem-estar em Pombal. Produtos naturais e suplementação, com aconselhamento em medicina integrativa.',
   legalName: 'Desafiosalutar – Unipessoal, Lda.',
   address: 'Rua Professor Ernesto Domingues Tavares, 26',
   postalCode: '3100-478',
@@ -33,7 +33,7 @@ export const SITE = {
     { days: 'Domingo e feriados', time: 'Encerrado' },
   ],
   copyrightYear: 2026,
-  privacyUpdated: '25 de setembro de 2026',
+  privacyUpdated: '9 de outubro de 2026',
 } as const;
 
 export const NAV_MAIN = [
@@ -42,6 +42,7 @@ export const NAV_MAIN = [
   { href: '/produtos', label: 'Produtos' },
   { href: '/marcas', label: 'Marcas' },
   { href: '/contactos', label: 'Contactos' },
+  { href: '/pedido-recomendacao', label: 'Pedido de recomendação' },
 ] as const;
 
 export const NAV_LEGAL = [
@@ -71,12 +72,12 @@ export const CATEGORIES: Category[] = [
   {
     slug: 'chas-e-infusoes',
     name: 'Chás e Infusões',
-    short: 'Plantas selecionadas para momentos de calma, digestão e bem-estar.',
+    short: 'Chás e infusões selecionados para momentos de calma, digestão e bem-estar.',
     description:
-      'Uma seleção cuidada de chás e infusões de plantas, simples ou em misturas, pensadas para acompanhar o seu dia-a-dia — do despertar ao descanso. Aconselhamos a infusão mais indicada para cada momento.',
+      'Uma seleção cuidada de chás e infusões, simples ou em misturas, pensadas para acompanhar o seu dia-a-dia — do despertar ao descanso. Aconselhamos a infusão mais indicada para cada momento.',
     examples: ['Camomila, tília e erva-cidreira', 'Misturas digestivas', 'Chás verdes e brancos', 'Infusões para o descanso'],
     image: '/img/cat_chas.jpg?v=1',
-    alt: 'Chávena de infusão de ervas com caixas de chá e plantas secas',
+    alt: 'Chávena de infusão de ervas com caixas de chá',
   },
   {
     slug: 'suplementos-naturais',
@@ -91,12 +92,12 @@ export const CATEGORIES: Category[] = [
   {
     slug: 'fitoterapia',
     name: 'Fitoterapia',
-    short: 'O saber tradicional das plantas medicinais em formatos práticos.',
+    short: 'Produtos de origem vegetal em formatos práticos.',
     description:
-      'Extratos, tinturas e cápsulas à base de plantas, que reúnem o conhecimento tradicional da fitoterapia com padrões de qualidade actuais. A nossa equipa ajuda a escolher com responsabilidade.',
-    examples: ['Tinturas e extratos', 'Cápsulas de plantas', 'Xaropes naturais', 'Plantas medicinais secas'],
+      'Extratos, tinturas e cápsulas de origem vegetal, que reúnem o conhecimento tradicional da fitoterapia com padrões de qualidade actuais. A nossa equipa ajuda a escolher com responsabilidade.',
+    examples: ['Tinturas e extratos', 'Cápsulas de origem vegetal', 'Xaropes naturais'],
     image: '/img/cat_fitoterapia.jpg?v=1',
-    alt: 'Frascos conta-gotas âmbar com extratos e plantas medicinais secas',
+    alt: 'Frascos conta-gotas âmbar com extratos naturais',
   },
   {
     slug: 'oleos-essenciais',

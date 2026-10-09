@@ -3,6 +3,7 @@ import { PrismaClient } from '@prisma/client'
 import { getCloudflareContext } from '@opennextjs/cloudflare'
 
 type CloudflareBindings = {
+  DATABASE_URL?: string
   HYPERDRIVE?: { connectionString: string }
 }
 
@@ -10,6 +11,7 @@ function getConnectionString() {
   try {
     const env = getCloudflareContext().env as CloudflareBindings
     if (env.HYPERDRIVE?.connectionString) return env.HYPERDRIVE.connectionString
+    if (env.DATABASE_URL) return env.DATABASE_URL
   } catch {
     // Local Next.js development uses the DATABASE_URL from .env.
   }

@@ -31,10 +31,10 @@ export default function QuemSomosPage() {
     <>
       <PageHero
         eyebrow="Quem Somos"
-        title="O saber das plantas, com cuidado e proximidade"
+        title="Produtos naturais, com cuidado e proximidade"
         subtitle="Uma ervanária de bairro onde tradição, conhecimento e atenção se encontram."
         image={IMAGES.hero2}
-        alt="Frascos de vidro com plantas secas numa prateleira de ervanária"
+        alt="Frascos de vidro numa prateleira de ervanária"
       />
 
       <section className="px-4 py-20 sm:px-6 md:py-24">
@@ -44,7 +44,7 @@ export default function QuemSomosPage() {
             <Reveal delay={0.1} className="mt-6 space-y-4 text-base leading-relaxed text-foreground/85">
               <p>
                 A {SITE.name} existe desde {SITE.foundingYear}. Em Pombal, é um espaço dedicado à sua saúde e bem-estar,
-                com produtos 100% de origem natural e aconselhamento personalizado. Ao longo dos anos, tornou-se um ponto
+                com produtos de origem natural e aconselhamento em medicina integrativa, centrado no bem-estar e na suplementação. Ao longo dos anos, tornou-se um ponto
                 de referência para quem procura alternativas naturais para o seu dia-a-dia.
               </p>
               <p>

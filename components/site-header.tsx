@@ -23,8 +23,8 @@ export function SiteHeader() {
   }, [])
 
   useEffect(() => {
-    setOpen(false)
-    setLegalOpen(false)
+    const frame = requestAnimationFrame(() => { setOpen(false); setLegalOpen(false) })
+    return () => cancelAnimationFrame(frame)
   }, [pathname])
 
   useEffect(() => {
@@ -57,14 +57,15 @@ export function SiteHeader() {
       <div className="mx-auto flex h-24 max-w-[1200px] items-center justify-between gap-4 px-4 sm:h-28 sm:px-6">
         <Logo prominent />
 
-        <nav aria-label="Navegação principal" className="hidden items-center gap-1 lg:flex">
+        <nav aria-label="Navegação principal" className="hidden items-center gap-1 xl:flex">
           {NAV_MAIN.map((item) => (
             <Link
               key={item.href}
               href={item.href}
+              onClick={event => { if (item.href === '/pedido-recomendacao') { event.preventDefault(); window.location.assign(item.href) } }}
               aria-current={isActive(item.href) ? 'page' : undefined}
               className={`rounded-md px-3 py-2 text-sm font-medium transition-colors ${
-                isActive(item.href) ? 'bg-secondary text-primary' : 'text-foreground/75 hover:bg-secondary hover:text-primary'
+                item.href === '/pedido-recomendacao' ? 'bg-primary text-primary-foreground shadow-soft hover:bg-leaf' : isActive(item.href) ? 'bg-secondary text-primary' : 'text-foreground/75 hover:bg-secondary hover:text-primary'
               }`}
             >
               {item.label}
@@ -122,7 +123,7 @@ export function SiteHeader() {
           </a>
           <button
             type="button"
-            className="inline-flex h-11 w-11 items-center justify-center rounded-md text-primary hover:bg-secondary lg:hidden"
+            className="inline-flex h-11 w-11 items-center justify-center rounded-md text-primary hover:bg-secondary xl:hidden"
             onClick={() => setOpen((v) => !v)}
             aria-expanded={open}
             aria-controls="menu-movel"
@@ -142,16 +143,17 @@ export function SiteHeader() {
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.25 }}
-            className="overflow-hidden bg-background shadow-soft lg:hidden"
+            className="overflow-hidden bg-background shadow-soft xl:hidden"
           >
             <ul className="mx-auto flex max-w-[1200px] flex-col gap-1 px-4 pb-6 pt-2">
               {[...NAV_MAIN, ...NAV_LEGAL].map((item) => (
                 <li key={item.href}>
                   <Link
                     href={item.href}
+                    onClick={event => { if (item.href === '/pedido-recomendacao') { event.preventDefault(); window.location.assign(item.href) } }}
                     aria-current={isActive(item.href) ? 'page' : undefined}
                     className={`block rounded-md px-4 py-3 text-base font-medium ${
-                      isActive(item.href) ? 'bg-secondary text-primary' : 'text-foreground/80 hover:bg-secondary'
+                      item.href === '/pedido-recomendacao' ? 'bg-primary text-primary-foreground shadow-soft hover:bg-leaf' : isActive(item.href) ? 'bg-secondary text-primary' : 'text-foreground/80 hover:bg-secondary'
                     }`}
                   >
                     {item.label}

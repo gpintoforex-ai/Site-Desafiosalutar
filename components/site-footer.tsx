@@ -101,9 +101,9 @@ export function SiteFooter() {
           <ul className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm text-primary-foreground/85 lg:grid-cols-1">
             {NAV_MAIN.map((l) => (
               <li key={l.href}>
-                <Link href={l.href} className="hover:text-accent">
+                {l.href === '/pedido-recomendacao' ? <a href={l.href} className="hover:text-accent">{l.label}</a> : <Link href={l.href} className="hover:text-accent">
                   {l.label}
-                </Link>
+                </Link>}
               </li>
             ))}
           </ul>

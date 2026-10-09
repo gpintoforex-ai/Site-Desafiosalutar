@@ -3,7 +3,7 @@ import { headers } from 'next/headers'
 
 export const dynamic = 'force-dynamic'
 
-const ROUTES = ['', '/quem-somos', '/produtos', '/marcas', '/contactos', '/politica-privacidade', '/informacao-legal']
+const ROUTES = ['', '/quem-somos', '/produtos', '/marcas', '/contactos', '/pedido-recomendacao', '/politica-privacidade', '/informacao-legal']
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const h = await headers()

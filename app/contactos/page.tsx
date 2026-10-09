@@ -1,14 +1,13 @@
 import type { Metadata } from 'next'
-import { Clock, Mail, MapPin, MessageCircle, Phone, ShieldCheck } from 'lucide-react'
+import { Clock, Mail, MapPin, MessageCircle, Phone } from 'lucide-react'
 import { PageHero } from '@/components/page-hero'
 import { Reveal } from '@/components/reveal'
-import { ContactForm } from '@/components/contact-form'
 import { MapEmbed } from '@/components/map-embed'
 import { IMAGES, SITE } from '@/lib/site'
 
 export const metadata: Metadata = {
   title: 'Contactos',
-  description: 'Contacte a Ervanária Desafio Salutar: morada, telefone, email, horário e formulário de contacto.',
+  description: 'Contacte a Ervanária Desafio Salutar: morada, telefone, email e horário.',
   alternates: { canonical: '/contactos' },
 }
 
@@ -18,14 +17,14 @@ export default function ContactosPage() {
       <PageHero
         eyebrow="Contactos"
         title="Fale connosco"
-        subtitle="Envie-nos uma mensagem ou visite-nos — teremos todo o gosto em aconselhá-lo."
+        subtitle="Telefone-nos, fale pelo WhatsApp ou visite-nos — teremos todo o gosto em recebê-lo."
         image={IMAGES.contact}
         alt="Entrada acolhedora da ervanária com prateleiras de produtos"
       />
 
       <section className="px-4 py-16 sm:px-6 md:py-20">
-        <div className="mx-auto grid max-w-[1200px] gap-10 lg:grid-cols-5">
-          <div className="space-y-4 lg:col-span-2">
+        <div className="mx-auto max-w-[1200px]">
+          <div className="grid gap-6 sm:grid-cols-2">
             <Reveal>
               <div className="rounded-lg bg-card p-6 shadow-soft">
                 <h2 className="flex items-center gap-2 text-xl font-semibold text-primary">
@@ -91,16 +90,6 @@ export default function ContactosPage() {
             </Reveal>
           </div>
 
-          <div className="lg:col-span-3">
-            <Reveal>
-              <h2 className="text-3xl font-semibold tracking-tight text-primary">Envie-nos uma mensagem</h2>
-              <p className="mb-6 mt-2 flex items-start gap-2 text-sm text-muted-foreground">
-                <ShieldCheck className="mt-0.5 h-4 w-4 shrink-0 text-leaf" aria-hidden="true" />
-                Os seus dados são tratados conforme o RGPD e a legislação nacional.
-              </p>
-              <ContactForm />
-            </Reveal>
-          </div>
         </div>
       </section>
 

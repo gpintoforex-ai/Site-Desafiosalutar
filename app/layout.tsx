@@ -4,10 +4,7 @@ import './globals.css'
 import { ThemeProvider } from '@/components/theme-provider'
 import { Toaster } from '@/components/ui/sonner'
 import { ChunkLoadErrorHandler } from '@/components/chunk-load-error-handler'
-import { SiteHeader } from '@/components/site-header'
-import { SiteFooter } from '@/components/site-footer'
-import { CookieBanner } from '@/components/cookie-banner'
-import { ChatWidget } from '@/components/chat-widget'
+import { SiteFrame } from '@/components/site-frame'
 import { SITE } from '@/lib/site'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans', display: 'swap' })
@@ -53,9 +50,6 @@ export async function generateMetadata(): Promise<Metadata> {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="pt-PT" suppressHydrationWarning>
-      <head>
-        <script src="https://apps.abacus.ai/chatllm/appllm-lib.js"></script>
-      </head>
       <body className={`${inter.variable} ${playfair.variable} font-sans`}>
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} disableTransitionOnChange>
           <a
@@ -64,13 +58,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           >
             Saltar para o conteúdo
           </a>
-          <SiteHeader />
-          <main id="conteudo" className="min-h-screen">
-            {children}
-          </main>
-          <SiteFooter />
-          <CookieBanner />
-          <ChatWidget />
+          <SiteFrame>{children}</SiteFrame>
           <Toaster />
           {/* IMPORTANT: Do not remove — handles chunk loading race conditions in the dev server */}
           <ChunkLoadErrorHandler />

@@ -67,8 +67,7 @@ export default function PoliticaPrivacidadePage() {
           <p>Recolhemos apenas os dados estritamente necessários:</p>
           <ul>
             <li>
-              <strong>Formulário de contacto:</strong> nome, endereço de email, telefone (opcional), assunto e conteúdo da
-              mensagem, bem como a data e hora do consentimento.
+              <strong>Pedido de recomendação:</strong> nome, email, telefone opcional, idade, objetivo do pedido e data do consentimento. Pode incluir voluntariamente informações sobre saúde, medicação, suplementos, alergias, hábitos e documentos ou análises clínicas.
             </li>
             <li>
               <strong>Contactos por email ou telefone:</strong> os dados que nos fornecer voluntariamente.
@@ -79,14 +78,14 @@ export default function PoliticaPrivacidadePage() {
             </li>
           </ul>
           <p>
-            Pedimos-lhe que não nos envie, através do formulário, dados relativos à saúde ou outras categorias especiais de
-            dados. Se necessário, esse tipo de informação poderá ser abordado presencialmente na loja.
+            Os campos de saúde e os anexos são opcionais. Partilhe apenas informações necessárias para o seu pedido e documentos seus. Oculte números de identificação e dados de terceiros. O tratamento dos dados de saúde partilhados depende do seu consentimento explícito, recolhido separadamente no formulário.
           </p>
         </section>
 
         <section id="finalidades">
           <h2>3. Finalidades e fundamento jurídico</h2>
           <ul>
+            <li><strong>Analisar pedidos de recomendação sobre ervanária e suplementação:</strong> os dados de saúde e anexos voluntariamente enviados são tratados para essa finalidade com consentimento explícito (art. 9.º, n.º 2, alínea a), do RGPD). Pode retirar o consentimento através dos contactos da loja.</li>
             <li>
               <strong>Responder a pedidos de informação</strong> — fundamento: consentimento (art. 6.º, n.º 1, alínea a) do
               RGPD) e diligências pré-contratuais a pedido do titular (alínea b)).
@@ -105,9 +104,7 @@ export default function PoliticaPrivacidadePage() {
         <section id="conservacao">
           <h2>4. Prazo de conservação</h2>
           <p>
-            Os dados enviados através do formulário de contacto são conservados pelo tempo necessário para responder ao seu
-            pedido e, no máximo, durante [24 meses] após o último contacto, salvo se outro prazo for exigido por lei. Findo
-            esse prazo, são apagados de forma segura.
+            Os pedidos e documentos são conservados enquanto forem necessários para analisar e acompanhar o seu pedido. Pode solicitar o seu apagamento ou retirar o consentimento contactando a loja. A equipa elimina os pedidos e os anexos associados na administração quando deixam de ser necessários; esta eliminação não é automática. Eventuais cópias de segurança seguem os prazos de retenção do prestador da base de dados.
           </p>
         </section>
 
@@ -122,6 +119,7 @@ export default function PoliticaPrivacidadePage() {
           <p>
             Os dados poderão ainda ser comunicados a autoridades públicas quando tal resulte de obrigação legal.
           </p>
+          <p>Os pedidos e anexos são guardados na base de dados do site e consultados na administração com autenticação. As notificações por Gmail não incluem o conteúdo de saúde nem os anexos. As respostas redigidas pela equipa são enviadas ao email que indicou através do Gmail.</p>
         </section>
 
         <section id="direitos">
@@ -194,8 +192,7 @@ export default function PoliticaPrivacidadePage() {
         <section id="menores">
           <h2>10. Menores</h2>
           <p>
-            O formulário de contacto destina-se a maiores de 13 anos, nos termos do art. 16.º da Lei n.º 58/2019. Abaixo
-            dessa idade, o contacto deve ser feito pelos pais ou representantes legais.
+            O formulário de pedido de recomendação destina-se exclusivamente a maiores de 18 anos. Para assuntos relativos a menores, contacte diretamente a loja.
           </p>
         </section>
 

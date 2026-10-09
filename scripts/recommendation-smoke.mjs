@@ -1,0 +1,16 @@
+import assert from 'node:assert/strict'
+const base = 'http://localhost:3001'
+const page = await fetch(`${base}/pedido-recomendacao`, { signal: AbortSignal.timeout(45000) })
+assert.equal(page.status, 200)
+const html = await page.text()
+assert.ok(html.includes('healthConsent')); assert.ok(html.includes('name="files"'))
+assert.ok(!html.includes('https://apps.abacus.ai/chatllm/appllm-lib.js'))
+const contact = await fetch(`${base}/contactos`, { signal: AbortSignal.timeout(45000) })
+assert.equal(contact.status, 200)
+assert.ok(!(await contact.text()).includes('Envie-nos uma mensagem'))
+assert.equal((await fetch(`${base}/api/admin/attachments?id=test`)).status, 401)
+const invalid = new FormData()
+invalid.set('name', 'Test')
+assert.equal((await fetch(`${base}/api/recomendacao`, { method: 'POST', headers: { origin: base }, body: invalid })).status, 400)
+assert.equal((await fetch(`${base}/api/recomendacao`, { method: 'POST', headers: { origin: 'https://evil.example' }, body: invalid })).status, 403)
+console.log('Recommendation smoke checks passed: page, contact form removal, private downloads, input and origin checks. No database writes or emails sent.')

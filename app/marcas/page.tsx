@@ -21,7 +21,7 @@ export default function MarcasPage() {
         title="Representamos as principais marcas de suplementos"
         subtitle="Trabalhamos com marcas de referência em produtos naturais e suplementação alimentar, garantindo qualidade e confiança em cada aconselhamento."
         image={IMAGES.hero3}
-        alt="Plantas e produtos naturais sobre uma bancada"
+        alt="Produtos naturais sobre uma bancada"
       />
 
       <section className="px-4 py-20 sm:px-6 md:py-24">
