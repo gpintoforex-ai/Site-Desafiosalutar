@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Playfair_Display, Inter } from 'next/font/google'
 import './globals.css'
 import { ThemeProvider } from '@/components/theme-provider'
@@ -9,6 +9,8 @@ import { SITE } from '@/lib/site'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans', display: 'swap' })
 const playfair = Playfair_Display({ subsets: ['latin'], variable: '--font-display', display: 'swap' })
+
+export const viewport: Viewport = { themeColor: '#65b518' }
 
 export async function generateMetadata(): Promise<Metadata> {
   let base: URL | undefined
@@ -27,9 +29,11 @@ export async function generateMetadata(): Promise<Metadata> {
       'Ervanária com chás e infusões, suplementos naturais, fitoterapia, óleos essenciais, cosméticos naturais e mel. Visite a nossa loja e receba aconselhamento personalizado.',
     keywords: ['ervanária', 'produtos naturais', 'fitoterapia', 'chás', 'suplementos', 'óleos essenciais', 'cosmética natural'],
     icons: {
-      icon: { url: '/favicon.svg?v=2', type: 'image/svg+xml', sizes: 'any' },
-      shortcut: '/favicon.svg?v=2',
+      apple: { url: '/apple-touch-icon.png?v=6', sizes: '180x180', type: 'image/png' },
+      icon: { url: '/favicon.svg?v=6', type: 'image/svg+xml', sizes: 'any' },
+      shortcut: '/favicon.svg?v=6',
     },
+    appleWebApp: { capable: true, title: 'Desafio Salutar', statusBarStyle: 'default' },
     openGraph: {
       type: 'website',
       locale: 'pt_PT',

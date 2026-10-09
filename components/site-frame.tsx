@@ -7,6 +7,7 @@ import { SiteHeader } from '@/components/site-header'
 import { SiteFooter } from '@/components/site-footer'
 import { CookieBanner } from '@/components/cookie-banner'
 import { ChatWidget } from '@/components/chat-widget'
+import { InstallApp } from '@/components/install-app'
 
 export function SiteFrame({ children }: { children: ReactNode }) {
   const pathname = usePathname()
@@ -19,6 +20,7 @@ export function SiteFrame({ children }: { children: ReactNode }) {
       {!isAdmin && <>
         <SiteFooter />
         <CookieBanner />
+        <InstallApp />
         {!isRecommendation && <><Script src="https://apps.abacus.ai/chatllm/appllm-lib.js" strategy="afterInteractive" /><ChatWidget /></>}
       </>}
     </>

@@ -27,13 +27,13 @@ export default function HomePage() {
         <div className="mx-auto grid max-w-[1200px] gap-4 md:grid-cols-3">
           {VALUES.map((v, i) => (
             <Reveal key={v.title} delay={i * 0.08}>
-              <div className="flex h-full gap-4 rounded-lg bg-card p-6 shadow-soft transition-shadow hover:shadow-lift">
-                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-secondary text-leaf">
+              <div className={`flex h-full gap-4 rounded-lg p-6 shadow-soft transition-shadow hover:shadow-lift ${v.title === 'Medicina integrativa' ? 'bg-primary ring-2 ring-leaf/40' : 'bg-card'}`}>
+                <span className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-full ${v.title === 'Medicina integrativa' ? 'bg-white/15 text-white' : 'bg-secondary text-leaf'}`}>
                   <v.icon className="h-6 w-6" aria-hidden="true" />
                 </span>
                 <div>
-                  <h2 className="text-lg font-semibold text-primary">{v.title}</h2>
-                  <p className="mt-1 text-sm text-muted-foreground">{v.text}</p>
+                  <h2 className={`${v.title === 'Medicina integrativa' ? 'text-2xl text-primary-foreground' : 'text-lg text-primary'} font-semibold`}>{v.title}</h2>
+                  <p className={`mt-1 text-sm ${v.title === 'Medicina integrativa' ? 'text-primary-foreground/90' : 'text-muted-foreground'}`}>{v.text}</p>
                 </div>
               </div>
             </Reveal>
