@@ -131,9 +131,23 @@ export const CATEGORIES: Category[] = [
   },
 ];
 
-export type Brand = { name: string; origin: string; focus: string; description: string; logo: string };
+export type Brand = { name: string; origin?: string; focus: string; description: string; logo: string };
 
 export const BRANDS: Brand[] = [
+  { name: 'NovoHorizonte', focus: 'Produtos naturais', description: 'Conheça as referências NovoHorizonte disponíveis na loja e peça aconselhamento à nossa equipa.', logo: '/marcas/novo-horizonte.png' },
+  { name: 'PhytoGold', focus: 'Produtos naturais', description: 'Conheça a seleção PhytoGold disponível na nossa loja e peça aconselhamento à equipa.', logo: '/marcas/phytogold.png' },
+  { name: 'Sovex', focus: 'Produtos naturais', description: 'Consulte as referências Sovex disponíveis na Desafio Salutar. Contacte-nos para saber mais.', logo: '/marcas/sovex.png' },
+  { name: 'Fharmonat', focus: 'Suplementação', description: 'Descubra os produtos Fharmonat disponíveis e esclareça as suas dúvidas com a nossa equipa.', logo: '/marcas/fharmonat.png' },
+  { name: 'NOW', focus: 'Suplementação', description: 'Encontre referências NOW na loja, com orientação para a sua escolha. A disponibilidade pode variar.', logo: '/marcas/now.png' },
+  { name: 'Natiris', focus: 'Suplementação', description: 'Peça informações sobre a seleção Natiris disponível na Desafio Salutar.', logo: '/marcas/natiris.png' },
+  { name: 'Organic India', focus: 'Produtos naturais', description: 'Conheça as referências Organic India disponíveis na loja e peça aconselhamento personalizado.', logo: '/marcas/organic-india.png' },
+  { name: 'Activ Ozone', focus: 'Produtos naturais', description: 'Conheça os produtos Activ Ozone disponíveis na loja. A nossa equipa ajuda a esclarecer as suas dúvidas.', logo: '/marcas/activ-ozone.png' },
+  { name: 'Bio-Kult', focus: 'Suplementação', description: 'Consulte a nossa seleção Bio-Kult e peça aconselhamento sobre os produtos disponíveis.', logo: '/marcas/bio-kult.png' },
+  { name: 'Bioceutica', focus: 'Produtos naturais', description: 'Encontre referências Bioceutica na Desafio Salutar. Contacte-nos para conhecer a disponibilidade.', logo: '/marcas/bioceutica.png' },
+  { name: 'BioSamara', focus: 'Produtos naturais', description: 'Descubra a seleção BioSamara na nossa loja, com aconselhamento próximo para a sua escolha.', logo: '/marcas/biosamara.png' },
+  { name: 'CHI', focus: 'Suplementação', description: 'Conheça as referências CHI disponíveis e esclareça as suas dúvidas com a nossa equipa.', logo: '/marcas/chi.png' },
+  { name: 'Drasanvi', focus: 'Suplementação', description: 'Peça informações sobre a gama Drasanvi disponível na loja e encontre orientação para a sua escolha.', logo: '/marcas/drasanvi.png' },
+  { name: 'Nutridil', focus: 'Produtos naturais', description: 'Consulte os produtos Nutridil disponíveis na Desafio Salutar. A disponibilidade pode variar.', logo: '/marcas/nutridil.png' },
   { name: 'Dietmed', origin: 'Portugal', focus: 'Produtos naturais', description: 'Desde 1987, referência portuguesa em produtos naturais, suplementos alimentares e fitoterapia.', logo: '/marcas/dietmed.png' },
   { name: 'Niral', origin: 'Portugal', focus: 'Suplementos alimentares', description: 'Marca portuguesa especializada em suplementos alimentares e produtos de saúde natural.', logo: '/marcas/niral.png' },
   { name: 'Nasófis', origin: 'Portugal', focus: 'Bem-estar natural', description: 'Dedicada ao bem-estar natural, com uma gama de produtos focada na saúde e equilíbrio.', logo: '/marcas/nasofis.png' },

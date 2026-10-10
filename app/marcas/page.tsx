@@ -44,9 +44,9 @@ export default function MarcasPage() {
                       <span className="inline-flex items-center gap-1 rounded-full bg-secondary px-3 py-1 font-medium text-primary">
                         <Tag className="h-3 w-3" aria-hidden="true" /> {b.focus}
                       </span>
-                      <span className="inline-flex items-center gap-1 rounded-full bg-secondary px-3 py-1 font-medium text-primary">
+                      {b.origin && <span className="inline-flex items-center gap-1 rounded-full bg-secondary px-3 py-1 font-medium text-primary">
                         <Globe2 className="h-3 w-3" aria-hidden="true" /> {b.origin}
-                      </span>
+                      </span>}
                     </div>
                     <p className="mt-4 text-sm leading-relaxed text-foreground/80">{b.description}</p>
                   </article>
