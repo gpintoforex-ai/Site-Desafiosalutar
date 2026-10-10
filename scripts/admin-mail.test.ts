@@ -35,7 +35,7 @@ test('SMTP passwords are encrypted with fresh nonces and reject tampered ciphert
   assert.throws(() => decryptSmtpPassword(parts.join('.')))
 })
 
-function fakeServer(rejectAuth = false) {
+function fakeServer(rejectAuth = false, fragmented = false) {
   const commands: string[] = []
   const responses = ['250-test\r\n250 AUTH LOGIN', '334 username', '334 password', rejectAuth ? '535 rejected' : '235 accepted', '250 sender', '250 recipient', '354 data', '250 queued']
   const socket = new Duplex({
@@ -43,11 +43,15 @@ function fakeServer(rejectAuth = false) {
     write(chunk, _encoding, done) {
       commands.push(chunk.toString())
       const response = responses.shift()
-      if (response) queueMicrotask(() => socket.push(response + '\r\n'))
+      if (response) queueMicrotask(() => push(response + '\r\n'))
       done()
     },
   })
-  queueMicrotask(() => socket.push('220 fake SMTP\r\n'))
+  function push(value: string) {
+    if (fragmented) { for (const character of value) socket.push(Buffer.from(character)) }
+    else socket.push(value)
+  }
+  queueMicrotask(() => push('220 fake SMTP\r\n'))
   const factory = (() => socket) as unknown as typeof connect
   return { factory, commands }
 }
@@ -66,6 +70,12 @@ test('SMTP authentication failures do not send message data or leak credentials'
   const server = fakeServer(true)
   await assert.rejects(sendSmtpMail(mail, server.factory), /password de aplicação/)
   assert.equal(server.commands.some(command => command.startsWith('DATA')), false)
+})
+
+test('SMTP handles byte-by-byte TCP replies including split CRLF and multiline EHLO', async () => {
+  const server = fakeServer(false, true)
+  await sendSmtpMail(mail, server.factory)
+  assert.equal(server.commands.filter(command => command.includes('MIME-Version:')).length, 1)
 })
 
 test('SMTP rejects header injection before opening a connection', async () => {

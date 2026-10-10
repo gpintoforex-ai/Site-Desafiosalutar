@@ -1,5 +1,4 @@
 import { connect } from 'node:tls'
-import { createInterface } from 'node:readline'
 import { randomUUID } from 'node:crypto'
 import { z } from 'zod'
 
@@ -11,16 +10,42 @@ export async function sendSmtpMail(mail: SmtpMail, connectionFactory: typeof con
   }
   // Only Gmail with implicit TLS is supported; admin input cannot select arbitrary network destinations.
   const socket = connectionFactory({ host: 'smtp.gmail.com', port: 465, servername: 'smtp.gmail.com', rejectUnauthorized: true })
-  const lines = createInterface({ input: socket, crlfDelay: Infinity })
-  const iterator = lines[Symbol.asyncIterator]()
+  // Frame SMTP directly: TCP chunks can split CRLF or contain several replies.
+  const queue: string[] = []
+  let pending = ''
+  let ended = false
+  let wake: (() => void) | undefined
   let timer: ReturnType<typeof setTimeout> | undefined
   let networkError: Error | undefined
-  socket.on('error', error => { networkError = error; lines.close() })
+  const signal = () => { const callback = wake; wake = undefined; callback?.() }
+  socket.on('data', (chunk: Buffer | Uint8Array | string) => {
+    pending += typeof chunk === 'string' ? chunk : Buffer.from(chunk).toString('utf8')
+    let newline: number
+    while ((newline = pending.indexOf('\n')) !== -1) {
+      const line = pending.slice(0, newline).replace(/\r$/, '')
+      pending = pending.slice(newline + 1)
+      if (line.length > 4096 || queue.length >= 100) { networkError = new Error('Resposta SMTP demasiado longa.'); ended = true; socket.destroy(); break }
+      queue.push(line)
+    }
+    if (pending.length > 4096) { networkError = new Error('Resposta SMTP demasiado longa.'); ended = true; socket.destroy() }
+    signal()
+  })
+  socket.on('error', () => { networkError = new Error('Não foi possível ligar ao Gmail por TLS.'); ended = true; signal() })
+  socket.on('end', () => { ended = true; signal() })
+  socket.on('close', () => { ended = true; signal() })
+
+  async function nextLine() {
+    while (!queue.length) {
+      if (ended) throw networkError || new Error('O servidor SMTP fechou a ligação.')
+      await new Promise<void>(resolve => { wake = resolve })
+    }
+    if (networkError) throw networkError
+    return queue.shift()!
+  }
 
   async function reply(expected: number[]) {
     for (let count = 0; count < 100; count++) {
-      const { value, done } = await iterator.next()
-      if (done) throw new Error(networkError ? 'Não foi possível ligar ao Gmail por TLS.' : 'O servidor SMTP fechou a ligação.')
+      const value = await nextLine()
       if (value.length > 4096 || !/^\d{3}[ -]/.test(value)) throw new Error('Resposta SMTP inválida.')
       if (value[3] === '-') continue
       const code = Number(value.slice(0, 3))
@@ -64,7 +89,8 @@ export async function sendSmtpMail(mail: SmtpMail, connectionFactory: typeof con
     ])
   } finally {
     clearTimeout(timer)
-    lines.close()
+    ended = true
+    signal()
     socket.destroy()
   }
 }
