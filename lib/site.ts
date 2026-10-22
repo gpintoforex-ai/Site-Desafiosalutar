@@ -1,4 +1,4 @@
-// Dados da empresa — valores entre [ ] são placeholders a actualizar pelo cliente.
+// Dados da empresa centralizados para utilização nas páginas do site.
 export const SITE = {
   name: 'Ervanária Desafio Salutar',
   shortName: 'Desafio Salutar',
@@ -18,9 +18,9 @@ export const SITE = {
   mobilePhoneCostNote: 'Chamada para a rede móvel nacional',
   email: 'desafiosalutar@hotmail.com',
   nif: '510774318',
-  registry: '[Conservatória do Registo Comercial de Pombal — a confirmar pelo cliente]',
-  capital: '[Capital social — a confirmar pelo cliente]',
-  cae: '[CAE — a confirmar pelo cliente]',
+  registry: 'Matrícula n.º 510774318',
+  capital: '1 000 €',
+  cae: '47272',
   facebookUrl: '#',
   instagramUrl: '#',
   mapQuery: 'Rua Professor Ernesto Domingues Tavares 26, 3100-478 Pombal',

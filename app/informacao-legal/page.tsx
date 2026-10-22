@@ -69,7 +69,12 @@ export default function InformacaoLegalPage() {
               www.livroreclamacoes.pt<span className="sr-only"> (abre numa nova janela)</span>
             </a>
           </p>
-          <p>Entidade reguladora/fiscalizadora competente: [ASAE — Autoridade de Segurança Alimentar e Económica, a confirmar pelo cliente].</p>
+          <p>
+            Entidade fiscalizadora competente: ASAE — Autoridade de Segurança Alimentar e Económica.{' '}
+            <a href="https://www.asae.gov.pt" target="_blank" rel="noopener noreferrer">
+              www.asae.gov.pt<span className="sr-only"> (abre numa nova janela)</span>
+            </a>
+          </p>
         </section>
 
         <section id="ral-odr">
@@ -80,15 +85,19 @@ export default function InformacaoLegalPage() {
           </p>
           <ul>
             <li>
-              [Centro de arbitragem de conflitos de consumo competente da área do estabelecimento — a indicar pelo cliente]
-            </li>
-            <li>
               CNIACC — Centro Nacional de Informação e Arbitragem de Conflitos de Consumo:{' '}
               <a href="https://www.cniacc.pt" target="_blank" rel="noopener noreferrer">
                 www.cniacc.pt<span className="sr-only"> (abre numa nova janela)</span>
               </a>
             </li>
           </ul>
+          <p>
+            O concelho de Pombal está abrangido pela competência territorial do CNIACC. Consulte a{' '}
+            <a href="https://www.cniacc.pt/pt/abrangencia-territorial" target="_blank" rel="noopener noreferrer">
+              abrangência territorial do centro<span className="sr-only"> (abre numa nova janela)</span>
+            </a>
+            .
+          </p>
           <p>
             Mais informações no Portal do Consumidor:{' '}
             <a href="https://www.consumidor.gov.pt" target="_blank" rel="noopener noreferrer">
