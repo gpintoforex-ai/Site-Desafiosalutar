@@ -115,6 +115,7 @@ export function ContactForm() {
 
   return (
     <form onSubmit={onSubmit} noValidate className="space-y-5 rounded-lg bg-card p-6 shadow-soft sm:p-8" aria-label="Formulário de contacto">
+      <p className="rounded-lg bg-cream p-3 text-sm">Use este formulário apenas para informações gerais. Não inclua sintomas, medicação, análises clínicas ou outros dados de saúde.</p>
       <div className="grid gap-5 sm:grid-cols-2">
         {Field({
           id: 'name',

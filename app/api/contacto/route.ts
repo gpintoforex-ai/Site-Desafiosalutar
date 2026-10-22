@@ -57,25 +57,16 @@ export async function POST(req: Request) {
     // Keep the saved message even when SMTP delivery fails.
     try {
       await sendConfiguredEmail(
-        `Nova mensagem de contacto - ${d.subject}`,
-        [
-          'Nova mensagem recebida no site da Desafio Salutar',
-          `Nome: ${d.name}`,
-          `Email: ${d.email}`,
-          `Telefone: ${d.phone ?? 'Nao indicado'}`,
-          `Assunto: ${d.subject}`,
-          '', d.message, '',
-          `Recebida em ${new Date().toLocaleString('pt-PT', { timeZone: 'Europe/Lisbon' })}`,
-        ].join('\n'),
-        d.email,
+        'Nova mensagem de contacto — Desafio Salutar',
+        'Foi recebida uma nova mensagem. Consulte a administração do site: https://desafiosalutar.pt/admin',
       )
-    } catch (mailErr) {
-      console.error('Falha ao enviar email de notificacao', mailErr instanceof Error ? mailErr.message : 'Erro SMTP')
+    } catch {
+      console.error('Falha ao enviar notificação de contacto')
     }
 
     return NextResponse.json({ ok: true })
-  } catch (err) {
-    console.error('Erro ao guardar contacto', err)
+  } catch {
+    console.error('Erro ao guardar contacto')
     return NextResponse.json({ error: 'Não foi possível enviar a mensagem. Tente novamente mais tarde.' }, { status: 500 })
   }
 }

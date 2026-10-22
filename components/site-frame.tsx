@@ -1,6 +1,6 @@
 'use client'
 
-import type { ReactNode } from 'react'
+import { useEffect, type ReactNode } from 'react'
 import { usePathname } from 'next/navigation'
 import Script from 'next/script'
 import { SiteHeader } from '@/components/site-header'
@@ -13,6 +13,13 @@ export function SiteFrame({ children }: { children: ReactNode }) {
   const pathname = usePathname()
   const isAdmin = pathname?.startsWith('/admin')
   const isRecommendation = pathname === '/pedido-recomendacao'
+  const isolate = (isAdmin || isRecommendation) && typeof document !== 'undefined' && !!document.querySelector('script[src^="https://apps.abacus.ai/"]')
+  useEffect(() => {
+    // A third-party script loaded on another SPA page remains able to read its DOM.
+    // Do not mount the sensitive surface until a fresh document removes that script.
+    if (isolate) window.location.replace(window.location.href)
+  }, [isolate])
+  if (isolate) return <main id="conteudo" role="status">A abrir a área protegida…</main>
   return (
     <>
       {!isAdmin && <SiteHeader />}

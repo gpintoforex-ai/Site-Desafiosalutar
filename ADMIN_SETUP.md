@@ -1,5 +1,7 @@
 # Administração de email
 
+> **22/10/2026:** o formulário de recomendação foi suspenso e substituído por uma ligação WhatsApp para informações gerais. O endpoint antigo está bloqueado. Consulte [a alteração temporária e o tratamento dos dados antigos](PEDIDOS-ACONSELHAMENTO.md). As instruções históricas abaixo não reativam a recolha.
+
 A página `/admin` configura o envio de notificações pelo Gmail. As mensagens continuam guardadas em `ContactSubmission`, mesmo quando o Gmail rejeita uma notificação. Não há reenvio automático das mensagens antigas.
 
 ## Preparação

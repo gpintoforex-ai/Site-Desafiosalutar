@@ -15,6 +15,7 @@ export const SITE = {
   mobilePhone: '+351 910 419 820',
   mobilePhoneHref: 'tel:+351910419820',
   whatsappUrl: `https://wa.me/351910419820?text=${encodeURIComponent('Olá! Gostaria de obter mais informações sobre os produtos da Desafio Salutar.')}`,
+  adviceWhatsappUrl: `https://wa.me/351910419820?text=${encodeURIComponent('Olá! Gostaria de obter informações gerais ou combinar um contacto com a Desafio Salutar.')}`,
   mobilePhoneCostNote: 'Chamada para a rede móvel nacional',
   email: 'desafiosalutar@hotmail.com',
   nif: '510774318',
@@ -33,7 +34,7 @@ export const SITE = {
     { days: 'Domingo e feriados', time: 'Encerrado' },
   ],
   copyrightYear: 2026,
-  privacyUpdated: '9 de outubro de 2026',
+  privacyUpdated: '22 de outubro de 2026',
 } as const;
 
 export const NAV_MAIN = [

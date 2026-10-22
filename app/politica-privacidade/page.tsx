@@ -67,7 +67,7 @@ export default function PoliticaPrivacidadePage() {
           <p>Recolhemos apenas os dados estritamente necessários:</p>
           <ul>
             <li>
-              <strong>Pedido de recomendação:</strong> nome, email, telefone opcional, idade, objetivo do pedido e data do consentimento. Pode incluir voluntariamente informações sobre saúde, medicação, suplementos, alergias, hábitos e documentos ou análises clínicas.
+              <strong>Aconselhamento:</strong> o formulário de pedido de recomendação está temporariamente desativado e não aceita novos pedidos nem anexos. A página disponibiliza apenas uma ligação WhatsApp para informações gerais ou para combinar um contacto. Pedidos enviados anteriormente podem conter nome, contactos, idade, objetivo do pedido, informações de saúde e documentos voluntariamente partilhados.
             </li>
             <li>
               <strong>Contactos por email ou telefone:</strong> os dados que nos fornecer voluntariamente.
@@ -78,14 +78,14 @@ export default function PoliticaPrivacidadePage() {
             </li>
           </ul>
           <p>
-            Os campos de saúde e os anexos são opcionais. Partilhe apenas informações necessárias para o seu pedido e documentos seus. Oculte números de identificação e dados de terceiros. O tratamento dos dados de saúde partilhados depende do seu consentimento explícito, recolhido separadamente no formulário.
+            Não envie dados de saúde, sintomas, medicação, diagnósticos ou análises clínicas por WhatsApp, email ou outros formulários. A ligação WhatsApp só abre o serviço externo quando decide carregar nela; o site não envia mensagens nem transfere automaticamente dados de um formulário para o WhatsApp. Em alternativa, pode contactar-nos por telefone ou presencialmente.
           </p>
         </section>
 
         <section id="finalidades">
           <h2>3. Finalidades e fundamento jurídico</h2>
           <ul>
-            <li><strong>Analisar pedidos de recomendação sobre ervanária e suplementação:</strong> os dados de saúde e anexos voluntariamente enviados são tratados para essa finalidade com consentimento explícito (art. 9.º, n.º 2, alínea a), do RGPD). Pode retirar o consentimento através dos contactos da loja.</li>
+            <li><strong>Pedidos de recomendação enviados anteriormente:</strong> no formulário anterior, o tratamento de dados de saúde dependia do consentimento explícito, recolhido separadamente (art. 9.º, n.º 2, alínea a), do RGPD). A desativação do formulário não elimina os pedidos já recebidos. Pode contactar a loja para exercer os seus direitos, incluindo retirar o consentimento ou solicitar o apagamento.</li>
             <li>
               <strong>Responder a pedidos de informação</strong> — fundamento: consentimento (art. 6.º, n.º 1, alínea a) do
               RGPD) e diligências pré-contratuais a pedido do titular (alínea b)).
@@ -104,7 +104,7 @@ export default function PoliticaPrivacidadePage() {
         <section id="conservacao">
           <h2>4. Prazo de conservação</h2>
           <p>
-            Os pedidos e documentos são conservados enquanto forem necessários para analisar e acompanhar o seu pedido. Pode solicitar o seu apagamento ou retirar o consentimento contactando a loja. A equipa elimina os pedidos e os anexos associados na administração quando deixam de ser necessários; esta eliminação não é automática. Eventuais cópias de segurança seguem os prazos de retenção do prestador da base de dados.
+            Os pedidos recebidos anteriormente e os respetivos documentos devem ser eliminados quando deixarem de ser necessários. Pode solicitar o apagamento ou retirar o consentimento contactando a loja. A desativação do formulário não executa essa eliminação. As cópias de segurança e os emails ou ficheiros anteriormente descarregados exigem tratamento separado da eliminação na base ativa.
           </p>
         </section>
 
@@ -119,7 +119,7 @@ export default function PoliticaPrivacidadePage() {
           <p>
             Os dados poderão ainda ser comunicados a autoridades públicas quando tal resulte de obrigação legal.
           </p>
-          <p>Os pedidos e anexos são guardados na base de dados do site e consultados na administração com autenticação. As notificações por Gmail não incluem o conteúdo de saúde nem os anexos. As respostas redigidas pela equipa são enviadas ao email que indicou através do Gmail.</p>
+          <p>Os pedidos e anexos recebidos antes da suspensão permanecem na base de dados do site até serem tratados ou eliminados, com acesso através da administração autenticada. As novas notificações por Gmail não incluem o conteúdo das mensagens nem anexos. Ao utilizar o WhatsApp, a conversa decorre nesse serviço externo, sujeito às respetivas condições de privacidade; utilize-o apenas para informações gerais ou para combinar um contacto.</p>
         </section>
 
         <section id="direitos">
@@ -192,7 +192,7 @@ export default function PoliticaPrivacidadePage() {
         <section id="menores">
           <h2>10. Menores</h2>
           <p>
-            O formulário de pedido de recomendação destina-se exclusivamente a maiores de 18 anos. Para assuntos relativos a menores, contacte diretamente a loja.
+            O formulário de pedido de recomendação está desativado. Para assuntos relativos a menores, contacte diretamente a loja, sem enviar dados de saúde ou documentos pelo WhatsApp.
           </p>
         </section>
 

@@ -22,6 +22,15 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   images: { unoptimized: true },
+  async headers() {
+    const common = [
+      { key: 'Referrer-Policy', value: 'no-referrer' },
+      { key: 'X-Content-Type-Options', value: 'nosniff' },
+      { key: 'X-Frame-Options', value: 'DENY' },
+    ]
+    const csp = "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'"
+    return ['/pedido-recomendacao', '/admin/:path*', '/api/admin/:path*', '/api/recomendacao'].map(source => ({ source, headers: [...common, ...(process.env.NODE_ENV === 'production' ? [{ key: 'Content-Security-Policy', value: csp }] : [])] }))
+  },
   // Next 16 blocks unlisted development origins, including the HMR WebSocket.
   allowedDevOrigins: ['127.0.0.1', '140ddf3051.na122.preview.abacusai.app'],
 }
