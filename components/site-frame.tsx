@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, type ReactNode } from 'react'
+import { useEffect, useSyncExternalStore, type ReactNode } from 'react'
 import { usePathname } from 'next/navigation'
 import Script from 'next/script'
 import { SiteHeader } from '@/components/site-header'
@@ -8,15 +8,25 @@ import { SiteFooter } from '@/components/site-footer'
 import { CookieBanner } from '@/components/cookie-banner'
 import { ChatWidget } from '@/components/chat-widget'
 import { InstallApp } from '@/components/install-app'
+import { CONSENT_EVENT, readConsent } from '@/lib/consent'
+
+function subscribeConsent(onChange: () => void) {
+  window.addEventListener(CONSENT_EVENT, onChange)
+  window.addEventListener('storage', onChange)
+  return () => { window.removeEventListener(CONSENT_EVENT, onChange); window.removeEventListener('storage', onChange) }
+}
+const functionalConsent = () => readConsent()?.functional === true
+const noServerConsent = () => false
 
 export function SiteFrame({ children }: { children: ReactNode }) {
   const pathname = usePathname()
   const isAdmin = pathname?.startsWith('/admin')
   const isRecommendation = pathname === '/pedido-recomendacao'
-  const isolate = (isAdmin || isRecommendation) && typeof document !== 'undefined' && !!document.querySelector('script[src^="https://apps.abacus.ai/"]')
+  const functional = useSyncExternalStore(subscribeConsent, functionalConsent, noServerConsent)
+  const isolate = (isAdmin || isRecommendation || !functional) && typeof document !== 'undefined' && !!document.querySelector('script[src^="https://apps.abacus.ai/"], script[src^="https://api.abacus.ai/"]')
   useEffect(() => {
-    // A third-party script loaded on another SPA page remains able to read its DOM.
-    // Do not mount the sensitive surface until a fresh document removes that script.
+    // Removing a script element cannot stop already executed SDK code.
+    // Reload after withdrawal, or before entering a sensitive surface, to isolate it.
     if (isolate) window.location.replace(window.location.href)
   }, [isolate])
   if (isolate) return <main id="conteudo" role="status">A abrir a área protegida…</main>
@@ -28,7 +38,7 @@ export function SiteFrame({ children }: { children: ReactNode }) {
         <SiteFooter />
         <CookieBanner />
         <InstallApp />
-        {!isRecommendation && <><Script src="https://apps.abacus.ai/chatllm/appllm-lib.js" strategy="afterInteractive" /><ChatWidget /></>}
+        {!isRecommendation && functional && <><Script src="https://apps.abacus.ai/chatllm/appllm-lib.js" strategy="afterInteractive" /><ChatWidget /></>}
       </>}
     </>
   )

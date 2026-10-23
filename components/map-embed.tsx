@@ -35,7 +35,7 @@ export function MapEmbed() {
           src={src}
           className="absolute inset-0 h-full w-full border-0"
           loading="lazy"
-          referrerPolicy="no-referrer-when-downgrade"
+          referrerPolicy="no-referrer"
         />
       ) : (
         <div className="leaf-pattern absolute inset-0 flex flex-col items-center justify-center gap-4 p-6 text-center">

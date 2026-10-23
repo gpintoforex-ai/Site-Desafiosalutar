@@ -17,7 +17,7 @@ const CATEGORIES: { key: keyof Prefs | 'necessary'; title: string; text: string 
   {
     key: 'functional',
     title: 'Funcionais',
-    text: 'Permitem funcionalidades de terceiros, como o mapa do Google Maps na página de contactos.',
+    text: 'Permitem carregar o mapa Google Maps e o assistente virtual Abacus.AI. Podem transmitir dados técnicos aos fornecedores. Não partilhe dados pessoais ou de saúde no assistente.',
   },
   {
     key: 'analytics',
@@ -32,14 +32,18 @@ const CATEGORIES: { key: keyof Prefs | 'necessary'; title: string; text: string 
 ]
 
 export function CookieBanner() {
-  const [visible, setVisible] = useState(false)
+  // Include the notice and policy link in the initial HTML, including without JavaScript.
+  const [visible, setVisible] = useState(true)
   const [showSettings, setShowSettings] = useState(false)
   const [prefs, setPrefs] = useState<Prefs>({ functional: false, analytics: false, marketing: false })
 
   useEffect(() => {
     const existing = readConsent()
     if (!existing) setVisible(true)
-    else setPrefs({ functional: existing.functional, analytics: existing.analytics, marketing: existing.marketing })
+    else {
+      setVisible(false)
+      setPrefs({ functional: existing.functional, analytics: existing.analytics, marketing: existing.marketing })
+    }
 
     const onOpen = () => {
       const c = readConsent()
@@ -59,7 +63,7 @@ export function CookieBanner() {
   }
 
   return (
-    <AnimatePresence>
+    <AnimatePresence initial={false}>
       {visible && (
         <motion.div
           role="dialog"
@@ -95,8 +99,8 @@ export function CookieBanner() {
               <p id="cookies-descricao" className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
                 Utilizamos cookies estritamente necessários ao funcionamento do site e, com o seu consentimento, cookies
                 opcionais. Pode aceitar, recusar ou escolher por categoria. Saiba mais na nossa{' '}
-                <Link href="/politica-privacidade#cookies" className="font-medium text-leaf underline underline-offset-2">
-                  Política de Privacidade
+                <Link href="/politica-cookies" className="font-medium text-leaf underline underline-offset-2">
+                  Política de Cookies
                 </Link>
                 .
               </p>

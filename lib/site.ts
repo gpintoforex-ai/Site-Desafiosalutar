@@ -48,6 +48,7 @@ export const NAV_MAIN = [
 
 export const NAV_LEGAL = [
   { href: '/politica-privacidade', label: 'Política de Privacidade' },
+  { href: '/politica-cookies', label: 'Política de Cookies' },
   { href: '/informacao-legal', label: 'Informação Legal' },
 ] as const;
 

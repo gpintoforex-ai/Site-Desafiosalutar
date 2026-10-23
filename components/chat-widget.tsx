@@ -1,9 +1,11 @@
 'use client'
 
 import { useEffect } from 'react'
+import { readConsent } from '@/lib/consent'
 
 export function ChatWidget() {
   useEffect(() => {
+    if (readConsent()?.functional !== true) return
     // Avoid double-loading
     if (document.getElementById('ds-chat-widget-sdk')) return
     const script = document.createElement('script')

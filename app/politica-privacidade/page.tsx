@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { PageHero } from '@/components/page-hero'
 import { LegalLayout } from '@/components/legal-layout'
-import { ManageCookiesButton } from '@/components/manage-cookies-button'
+import { CookiesPolicyContent } from '@/components/cookies-policy-content'
 import { SITE } from '@/lib/site'
 
 export const metadata: Metadata = {
@@ -19,7 +19,7 @@ const TOC = [
   { id: 'destinatarios', label: 'Destinatários' },
   { id: 'direitos', label: 'Os seus direitos' },
   { id: 'cnpd', label: 'Reclamação à CNPD' },
-  { id: 'cookies', label: 'Cookies' },
+  { id: 'cookies', label: 'Política de Cookies' },
   { id: 'seguranca', label: 'Segurança' },
   { id: 'menores', label: 'Menores' },
   { id: 'alteracoes', label: 'Alterações' },
@@ -155,30 +155,9 @@ export default function PoliticaPrivacidadePage() {
         </section>
 
         <section id="cookies">
-          <h2>8. Cookies</h2>
-          <p>
-            Cookies e tecnologias semelhantes são pequenos ficheiros ou registos guardados no seu dispositivo. Nos termos da
-            Lei n.º 41/2004, só utilizamos tecnologias não essenciais com o seu consentimento prévio.
-          </p>
-          <h3>Categorias utilizadas</h3>
-          <ul>
-            <li>
-              <strong>Estritamente necessários:</strong> memorização das suas preferências de cookies (armazenamento local,
-              chave “nv-cookie-consent-v1”). Não requerem consentimento.
-            </li>
-            <li>
-              <strong>Funcionais:</strong> mapa do Google Maps na página de contactos, apenas carregado após consentimento.
-              A Google poderá instalar os seus próprios cookies, de acordo com a respetiva política de privacidade.
-            </li>
-            <li>
-              <strong>Analíticos e marketing:</strong> actualmente não utilizados. Caso venham a ser implementados, só serão
-              ativados com o seu consentimento.
-            </li>
-          </ul>
-          <p>
-            Pode alterar as suas preferências a qualquer momento: <ManageCookiesButton className="font-medium text-leaf underline underline-offset-2 hover:text-primary" label="gerir preferências de cookies" />.
-            Pode também apagar os dados guardados através das definições do seu navegador.
-          </p>
+          <h2>8. Política de Cookies</h2>
+          <CookiesPolicyContent />
+          <p><Link href="/politica-cookies">Política de Cookies numa página própria</Link>.</p>
         </section>
 
         <section id="seguranca">
