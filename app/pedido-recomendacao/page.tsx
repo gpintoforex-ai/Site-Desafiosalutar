@@ -21,7 +21,7 @@ export default function RecommendationPage() {
     <section className="px-4 py-12 sm:px-6">
       <div className="mx-auto max-w-2xl rounded-2xl border border-border bg-card p-6 shadow-soft sm:p-10">
         <h2 className="text-2xl font-semibold text-primary">Estamos por perto</h2>
-        <p className="mt-3 text-muted-foreground">O formulário de aconselhamento está temporariamente desativado. Pode iniciar uma conversa pelo WhatsApp ou ligar para a loja.</p>
+        <p className="mt-3 text-muted-foreground">O formulário de aconselhamento foi removido. Pode iniciar uma conversa pelo WhatsApp ou ligar para a loja.</p>
         <div className="mt-6 rounded-xl bg-cream p-5 text-sm leading-relaxed">
           <p className="font-semibold text-primary">Proteja a sua privacidade</p>
           <p className="mt-2">Utilize este contacto apenas para informações gerais ou para combinar atendimento. Não envie sintomas, medicação, diagnósticos, análises clínicas, fotografias de documentos ou outros dados de saúde por WhatsApp.</p>

@@ -21,20 +21,6 @@ model ContactSubmission {
   status      String   @default("novo")
   createdAt   DateTime @default(now())
   replies     ContactReply[]
-  attachments ContactAttachment[]
-}
-
-model ContactAttachment {
-  id           String @id
-  submissionId String
-  submission   ContactSubmission @relation(fields: [submissionId], references: [id], onDelete: Cascade)
-  name         String
-  mime         String
-  size         Int
-  data         Bytes
-  createdAt    DateTime @default(now())
-
-  @@index([submissionId])
 }
 
 model ContactReply {

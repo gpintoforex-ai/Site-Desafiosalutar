@@ -4,9 +4,8 @@ import { useCallback, useEffect, useState } from 'react'
 import { readApiResponse } from '@/lib/api-response'
 type Item = { id: string; name: string; email: string; subject: string; status: string; createdAt: string; phone?: string; message?: string }
 type Reply = { id: string; message: string; status: string; createdAt: string }
-type Attachment = { id: string; name: string; size: number }
 type Counts = { novo: number; lido: number; respondido: number }
-type Result = { items?: Item[]; total?: number; unread?: number; counts?: Counts; item?: Item; replies?: Reply[]; attachments?: Attachment[]; error?: string; message?: string }
+type Result = { items?: Item[]; total?: number; unread?: number; counts?: Counts; item?: Item; replies?: Reply[]; error?: string; message?: string }
 const button = 'rounded-lg border border-border px-4 py-2 text-sm font-semibold hover:bg-secondary disabled:opacity-50'
 const date = (value: string) => new Date(value).toLocaleString('pt-PT')
 
@@ -21,7 +20,6 @@ export function AdminInbox() {
   const [status, setStatus] = useState('novo')
   const [selected, setSelected] = useState<Item | null>(null)
   const [replies, setReplies] = useState<Reply[]>([])
-  const [attachments, setAttachments] = useState<Attachment[]>([])
   const [draft, setDraft] = useState('')
   const [busy, setBusy] = useState(false)
   const [loading, setLoading] = useState(true)
@@ -32,7 +30,7 @@ export function AdminInbox() {
   function changeGroup(value: string) {
     if (value === status) return
     if (draft && !window.confirm('Descartar a resposta ainda não enviada?')) return
-    setStatus(value); setPage(1); setSelected(null); setReplies([]); setAttachments([]); setDraft('')
+    setStatus(value); setPage(1); setSelected(null); setReplies([]); setDraft('')
     setConfirmDelete(false); setNotice(''); setError(''); setLoading(true)
   }
 
@@ -61,26 +59,9 @@ export function AdminInbox() {
       const data = await api(`/api/admin/messages?id=${encodeURIComponent(item.id)}`)
       if (item.status === 'novo') await api('/api/admin/messages', { id: item.id, action: 'read' })
       setSelected(data.item ? { ...data.item, status: item.status === 'novo' ? 'lido' : data.item.status } : null)
-      setReplies(data.replies || []); setAttachments(data.attachments || []); setDraft(''); await load()
+      setReplies(data.replies || []); setDraft(''); await load()
     } catch (err) { setError(err instanceof Error ? err.message : 'Erro ao abrir mensagem.') }
     finally { setBusy(false) }
-  }
-  async function download(file: Attachment) {
-    setBusy(true); setError('')
-    let objectUrl: string | undefined
-    try {
-      const response = await fetch(`/api/admin/attachments?id=${encodeURIComponent(file.id)}`, { cache: 'no-store' })
-      if (!response.ok) throw new Error(response.status === 401 ? 'Sessão expirada. Entre novamente para descarregar o anexo.' : `Não foi possível descarregar o anexo (HTTP ${response.status}).`)
-      const blob = await response.blob()
-      if (blob.size !== file.size) throw new Error('O descarregamento ficou incompleto. Tente novamente.')
-      objectUrl = URL.createObjectURL(blob)
-      const link = document.createElement('a')
-      link.href = objectUrl; link.download = file.name; document.body.appendChild(link); link.click(); link.remove()
-      const url = objectUrl
-      window.setTimeout(() => URL.revokeObjectURL(url), 60000)
-      objectUrl = undefined
-    } catch (err) { setError(err instanceof Error ? err.message : 'Não foi possível descarregar o anexo.') }
-    finally { if (objectUrl) URL.revokeObjectURL(objectUrl); setBusy(false) }
   }
   async function act(action: 'reply' | 'delete' | 'unread') {
     if (!selected) return
@@ -132,7 +113,6 @@ export function AdminInbox() {
           {selected.phone && <p className="text-sm">Telefone: {selected.phone}</p>}
           <p className="mt-1 text-xs text-muted-foreground">{date(selected.createdAt)}</p>
           <p className="my-6 whitespace-pre-wrap break-words">{selected.message}</p>
-          {attachments.length > 0 && <div className="mb-6 rounded-lg bg-secondary p-4"><h4 className="font-semibold">Anexos do pedido</h4><ul className="mt-3 space-y-2">{attachments.map(file => <li key={file.id}><button type="button" disabled={busy} className="break-words text-left text-sm text-primary underline disabled:opacity-50" onClick={() => void download(file)}>{file.name} · {(file.size / 1024 / 1024).toFixed(2)} MB · Descarregar</button></li>)}</ul></div>}
           <div className="flex flex-wrap gap-2"><button className={button} disabled={busy} onClick={() => void act('unread')}>Marcar como não lida</button><button className={`${button} text-destructive`} disabled={busy} onClick={() => setConfirmDelete(true)}>Eliminar</button></div>
           {confirmDelete && <div className="mt-3 rounded-lg border border-destructive p-3"><p className="text-sm">Eliminar esta mensagem e o histórico de respostas permanentemente?</p><div className="mt-3 flex gap-2"><button className={`${button} text-destructive`} disabled={busy} onClick={() => void act('delete')}>Sim, eliminar</button><button className={button} disabled={busy} onClick={() => setConfirmDelete(false)}>Cancelar</button></div></div>}
           {replies.length > 0 && <div className="mt-6 space-y-3"><h4 className="font-semibold">Histórico de respostas</h4>{replies.map(reply => <div key={reply.id} className="rounded-lg bg-secondary p-4"><p className="text-xs text-muted-foreground">{date(reply.createdAt)} · {reply.status === 'enviado' ? 'Aceite pelo Gmail' : reply.status === 'falhou' ? 'Envio não confirmado' : 'A enviar / por confirmar'}</p><p className="mt-2 whitespace-pre-wrap break-words">{reply.message}</p></div>)}</div>}

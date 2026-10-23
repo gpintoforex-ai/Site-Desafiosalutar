@@ -19,7 +19,7 @@ const schema = z.object({
   message: z.string().trim().min(10).max(4000),
   consent: z.literal(true),
   website: z.string().optional(),
-})
+}).strict()
 
 export async function POST(req: Request) {
   try {

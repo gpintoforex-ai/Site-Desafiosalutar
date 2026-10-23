@@ -19,25 +19,23 @@ export async function GET(request: Request) {
     const url = new URL(request.url)
     const id = url.searchParams.get('id')
     if (id) {
-      const item = await prisma.contactSubmission.findUnique({ where: { id } })
+      const item = await prisma.contactSubmission.findFirst({ where: { id, formType: 'contacto' } })
       if (!item) return respond({ error: 'Mensagem não encontrada.' }, 404)
       const replies = await prisma.$queryRaw<Reply[]>`SELECT * FROM "ContactReply" WHERE "submissionId" = ${id} ORDER BY "createdAt" ASC`
-      const attachments = item.formType === 'recomendacao'
-        ? await prisma.$queryRaw<{ id: string; name: string; size: number }[]>`SELECT "id", "name", "size" FROM "ContactAttachment" WHERE "submissionId" = ${id} ORDER BY "createdAt" ASC`
-        : []
-      return respond({ item, replies, attachments })
+      return respond({ item, replies })
     }
     const page = Math.max(1, Math.min(100000, Number(url.searchParams.get('page')) || 1))
     const search = (url.searchParams.get('search') || '').slice(0, 200)
     const status = url.searchParams.get('status')
     const where = {
+      formType: 'contacto',
       ...(status && ['novo', 'lido', 'respondido'].includes(status) ? { status } : {}),
       ...(search ? { OR: ['name', 'email', 'subject', 'message'].map(field => ({ [field]: { contains: search, mode: 'insensitive' as const } })) } : {}),
     }
     const [items, total, grouped] = await Promise.all([
       prisma.contactSubmission.findMany({ where, orderBy: { createdAt: 'desc' }, skip: (Math.floor(page) - 1) * 20, take: 20, select: { id: true, name: true, email: true, subject: true, status: true, createdAt: true } }),
       prisma.contactSubmission.count({ where }),
-      prisma.contactSubmission.groupBy({ by: ['status'], _count: { _all: true } }),
+      prisma.contactSubmission.groupBy({ where: { formType: 'contacto' }, by: ['status'], _count: { _all: true } }),
     ])
     const counts = { novo: 0, lido: 0, respondido: 0 }
     for (const group of grouped) {
@@ -61,10 +59,10 @@ export async function POST(request: Request) {
   let prisma: ReturnType<typeof createPrismaClient> | undefined
   try {
     prisma = createPrismaClient()
-    const item = await prisma.contactSubmission.findUnique({ where: { id } })
+    const item = await prisma.contactSubmission.findFirst({ where: { id, formType: 'contacto' } })
     if (!item) return respond({ error: 'Mensagem não encontrada.' }, 404)
     if (action === 'delete') {
-      await prisma.contactSubmission.delete({ where: { id } })
+      await prisma.contactSubmission.delete({ where: { id, formType: 'contacto' } })
       return respond({ message: 'Mensagem e histórico eliminados.' })
     }
     if (action === 'reply') {
@@ -72,7 +70,7 @@ export async function POST(request: Request) {
       // Persist before sending so an accepted email always has a visible history entry.
       await prisma.$executeRaw`INSERT INTO "ContactReply" ("id", "submissionId", "message") VALUES (${replyId}, ${id}, ${message!})`
       try {
-        const text = item.formType === 'recomendacao' ? `${message}\n\n— Desafio Salutar` : `${message}\n\n— Desafio Salutar\n\nMensagem original de ${item.name}:\n${item.message}`
+        const text = `${message}\n\n— Desafio Salutar`
         await sendConfiguredEmail(`Re: ${item.subject.replace(/[\r\n]/g, ' ').slice(0, 160)}`, text, undefined, item.email)
       } catch {
         await prisma.$executeRaw`UPDATE "ContactReply" SET "status" = 'falhou' WHERE "id" = ${replyId}`
@@ -81,12 +79,12 @@ export async function POST(request: Request) {
       try {
         await prisma.$transaction([
           prisma.$executeRaw`UPDATE "ContactReply" SET "status" = 'enviado' WHERE "id" = ${replyId}`,
-          prisma.contactSubmission.update({ where: { id }, data: { status: 'respondido' } }),
+          prisma.contactSubmission.update({ where: { id, formType: 'contacto' }, data: { status: 'respondido' } }),
         ])
       } catch { return respond({ message: 'O Gmail aceitou a resposta, mas o estado não foi atualizado. Não repita o envio; confirme na pasta Enviados do Gmail.' }) }
       return respond({ message: 'O Gmail aceitou a resposta para envio ao cliente.' })
     }
-    await prisma.contactSubmission.update({ where: { id }, data: { status: action === 'unread' ? 'novo' : item.status === 'novo' ? 'lido' : item.status } })
+    await prisma.contactSubmission.update({ where: { id, formType: 'contacto' }, data: { status: action === 'unread' ? 'novo' : item.status === 'novo' ? 'lido' : item.status } })
     return respond({ message: 'Estado atualizado.' })
   } catch { return respond({ error: 'Não foi possível concluir o pedido. Confirme a base de dados e a tabela ContactReply.' }, 503) }
   finally { if (prisma) await prisma.$disconnect() }

@@ -67,7 +67,7 @@ export default function PoliticaPrivacidadePage() {
           <p>Recolhemos apenas os dados estritamente necessários:</p>
           <ul>
             <li>
-              <strong>Aconselhamento:</strong> o formulário de pedido de recomendação está temporariamente desativado e não aceita novos pedidos nem anexos. A página disponibiliza apenas uma ligação WhatsApp para informações gerais ou para combinar um contacto. Pedidos enviados anteriormente podem conter nome, contactos, idade, objetivo do pedido, informações de saúde e documentos voluntariamente partilhados.
+              <strong>Aconselhamento:</strong> o formulário de pedido de recomendação foi removido e não aceita novos pedidos nem anexos. A página disponibiliza apenas uma ligação WhatsApp para informações gerais ou para combinar um contacto. Pedidos enviados anteriormente podem conter nome, contactos, idade, objetivo do pedido, informações de saúde e documentos voluntariamente partilhados.
             </li>
             <li>
               <strong>Contactos por email ou telefone:</strong> os dados que nos fornecer voluntariamente.
@@ -119,7 +119,7 @@ export default function PoliticaPrivacidadePage() {
           <p>
             Os dados poderão ainda ser comunicados a autoridades públicas quando tal resulte de obrigação legal.
           </p>
-          <p>Os pedidos e anexos recebidos antes da suspensão permanecem na base de dados do site até serem tratados ou eliminados, com acesso através da administração autenticada. As novas notificações por Gmail não incluem o conteúdo das mensagens nem anexos. Ao utilizar o WhatsApp, a conversa decorre nesse serviço externo, sujeito às respetivas condições de privacidade; utilize-o apenas para informações gerais ou para combinar um contacto.</p>
+          <p>O código de recolha e consulta dos antigos pedidos de aconselhamento e anexos foi removido. Esses registos deixaram de estar disponíveis na administração do site. A remoção do código não apaga os dados anteriormente guardados, nem as cópias de segurança, emails ou ficheiros descarregados; a sua gestão exige um procedimento separado. As novas notificações por Gmail não incluem o conteúdo das mensagens nem anexos. Ao utilizar o WhatsApp, a conversa decorre nesse serviço externo, sujeito às respetivas condições de privacidade; utilize-o apenas para informações gerais ou para combinar um contacto.</p>
         </section>
 
         <section id="direitos">

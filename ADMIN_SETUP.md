@@ -41,21 +41,12 @@ Se publicar através de GitHub Actions, configure também os três segredos de a
 O envio usa `node:tls`, suportado pela Cloudflare com a configuração de compatibilidade atual. O teste com a password real deve ser feito depois da publicação; o Gmail pode recusar uma conta, limitar envios ou filtrar mensagens como spam.
 # Caixa de entrada
 
-## Pedidos de recomendação e anexos
+## Contactos gerais, sem recolha clinica
 
-Antes de publicar, execute `scripts/create-recommendation-attachments.sql` na mesma base de dados. Os anexos ficam em BYTEA no PostgreSQL, separados dos metadados, sem pasta pública nem serviço de armazenamento adicional. Limites: dois ficheiros por pedido, 5 MB cada; PDF, JPG ou PNG. Extensão, MIME e assinatura são verificados; isso não constitui análise antivírus.
+O modulo de recolha de saude foi removido em 23/10/2026: formulario, campos, validadores e suporte de anexos. Nao executar antigos scripts de criacao de anexos. A rota antiga de submissao e a de download devolvem HTTP 410 sem ler o corpo ou a base.
 
-O formulário `/pedido-recomendacao` recolhe dados de adultos e consentimento explícito, com campos de saúde e anexos opcionais. As notificações SMTP só avisam de um novo pedido. Os detalhes e ficheiros são consultados na administração. O descarregamento exige sessão admin válida, com resposta no-store, attachment e nosniff. Ao eliminar o pedido, os anexos também são eliminados; backups do fornecedor seguem a retenção dele.
+A caixa de entrada lista e permite operar apenas sobre registos com formType contacto, incluindo pesquisa, contagens e acesso por identificador. Registos antigos de outros tipos ficam inacessiveis por esta aplicacao. As respostas nao incluem automaticamente o conteudo original.
 
-As ligações para o formulário fazem navegação completa para não transportar scripts de chat carregados noutras páginas. O chat não carrega no formulário. As respostas a pedidos de recomendação não incluem automaticamente o texto original com os dados de saúde.
+A remocao de modelos no schema Prisma nao apaga as tabelas existentes. Nao executar prisma db push ou migracoes destrutivas para aplicar esta alteracao. Basta gerar o cliente durante o build. Dados, emails, downloads e backups antigos continuam a exigir um procedimento separado e aprovado.
 
-A proteção por IP é local ao Worker; configure rate limiting na Cloudflare para `/api/recomendacao` se quiser limites globais contra abuso. Não existe limpeza automática por idade nem sincronização Gmail. A equipa deve eliminar pedidos quando deixarem de ser necessários. Nunca imprima documentos ou conteúdo de saúde nos logs.
-
-Validação: `node node_modules/tsx/dist/cli.mjs --test scripts/recommendation.test.ts`. A criação de um pedido com ficheiros e a leitura em produção precisam de confirmação depois de executar o SQL; os testes locais de rejeição não criam pedidos nem enviam emails.
-
-Execute também `scripts/create-inbox.sql` no editor SQL da mesma base de dados antes de publicar esta versão. Cria o histórico de respostas sem alterar as mensagens existentes.
-
-Em `/admin`, a aba **Mensagens** permite pesquisar, filtrar, ler, marcar como não lida, eliminar com confirmação e responder ao email do cliente. Cada página mostra 20 mensagens. A eliminação é permanente e inclui o histórico de respostas. As respostas usam o Gmail configurado e precisam de envio SMTP ativo.
-
-A caixa de entrada contém mensagens do formulário do site. Não sincroniza a caixa Gmail: respostas posteriores dos clientes chegam ao Gmail. O estado “Aceite pelo Gmail” confirma aceitação SMTP, não entrega na caixa do cliente. Se um envio ficar por confirmar, consulte os Enviados do Gmail antes de repetir.
-
+Validacao isolada, sem base real ou envio de emails: node --experimental-test-module-mocks --import tsx --test scripts/inbox-isolation.test.mts.
